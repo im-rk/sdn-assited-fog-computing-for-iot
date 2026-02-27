@@ -2,12 +2,15 @@
 """
 Analytics Data Generator
 ==========================
-Sends bulk historical sensor data to the SDN Proxy.
+Sends bulk historical sensor data to the SDN network endpoint.
 
 IMPORTANT: This device does NOT know whether data goes to Fog or Cloud.
-It just sends to the SDN Proxy on port 9000.
-The SDN Proxy performs DPI, detects the large payload size,
-and routes to Cloud automatically.
+It only knows the single SDN endpoint address and sends all data there.
+
+In Simulation mode:  sends to sdn_proxy.py  (127.0.0.1:9000)
+In Mininet mode:     sends to 10.0.0.100:9000 — packets enter the OpenFlow
+                     switch, which sends them to the Ryu SDN controller for
+                     DPI and policy-driven routing to Fog or Cloud.
 """
 
 import json
@@ -17,9 +20,10 @@ import socket
 import argparse
 from datetime import datetime, timedelta
 
-# Single SDN endpoint
-SDN_PROXY_HOST = "127.0.0.1"
-SDN_PROXY_PORT = 9000
+# Single SDN endpoint — device knows NOTHING about Fog/Cloud
+# Simulation mode: 127.0.0.1  |  Mininet mode: 10.0.0.100 (passed via --host)
+SDN_ENDPOINT_HOST = "127.0.0.1"
+SDN_ENDPOINT_PORT = 9000
 
 SENSOR_ID = "ANALYTICS_001"
 
@@ -72,8 +76,8 @@ def send(payload: dict, host: str, port: int) -> tuple:
 
 def main():
     parser = argparse.ArgumentParser(description="Analytics Data Generator")
-    parser.add_argument("--host",         default=SDN_PROXY_HOST)
-    parser.add_argument("--port",  type=int,   default=SDN_PROXY_PORT)
+    parser.add_argument("--host",         default=SDN_ENDPOINT_HOST)
+    parser.add_argument("--port",  type=int,   default=SDN_ENDPOINT_PORT)
     parser.add_argument("--interval", type=float, default=10.0)
     parser.add_argument("--points",   type=int,   default=50,
                         help="Data points per batch")

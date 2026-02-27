@@ -53,6 +53,7 @@ HTTP_MONITORING_PORT = 9001   # Port for the REST monitoring API
 
 # -- Runtime State ------------------------------------------------------------
 engine      = PolicyEngine()          # Loads everything from JSON policy
+_policy_lock = threading.Lock()       # Protects against race during hot-reload
 routing_log = deque(maxlen=300)
 stats = {
     "total_packets":  0,
@@ -90,14 +91,34 @@ def get_policy():
 @app.route("/policy/reload", methods=["POST"])
 def reload_policy():
     """Hot-reload policy without restarting the proxy."""
-    engine.reload_policy()
+    with _policy_lock:
+        engine.reload_policy()
     return jsonify({"status": "reloaded", "rules": len(engine.rules)})
 
 # -- Core Forwarding ----------------------------------------------------------
-def forward_packet(payload: bytes, node: dict):
-    """Send packet to the destination node defined in the policy."""
+def forward_packet(payload: bytes, node: dict, result: dict):
+    """
+    Send packet to the destination node defined in the policy.
+    Enriches the payload with SDN routing metadata so downstream
+    servers can act on traffic_class without hardcoding any logic.
+    """
+    # Inject routing metadata into payload so Fog/Cloud servers
+    # know the classification without any hardcoded rules
+    try:
+        data = json.loads(payload.decode("utf-8"))
+        data["_sdn_routing"] = {
+            "rule_id":       result["rule_id"],
+            "rule_name":     result["rule_name"],
+            "traffic_class": result["traffic_class"],
+            "node_name":     result["node_name"],
+            "reason":        result["reason"],
+        }
+        enriched = json.dumps(data).encode("utf-8")
+    except Exception:
+        enriched = payload
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.sendto(payload, (node["host"], node["port"]))
+    sock.sendto(enriched, (node["host"], node["port"]))
     sock.close()
 
 def process_packet(payload: bytes, source_addr: tuple):
@@ -105,8 +126,9 @@ def process_packet(payload: bytes, source_addr: tuple):
     Main pipeline:
       RAW BYTES -> PolicyEngine.evaluate() -> Forward -> Log
     """
-    # Evaluate against policy rules
-    result = engine.evaluate(payload)
+    # Evaluate against policy rules (lock ensures policy reload doesn't race)
+    with _policy_lock:
+        result = engine.evaluate(payload)
 
     # Update runtime stats
     with stats_lock:
@@ -123,8 +145,8 @@ def process_packet(payload: bytes, source_addr: tuple):
 
         pkt_num = stats["total_packets"]
 
-    # Forward to the node the policy chose
-    forward_packet(payload, result["node"])
+    # Forward to the node the policy chose (enriched with routing metadata)
+    forward_packet(payload, result["node"], result)
 
     # Log the decision
     event = {
@@ -146,10 +168,10 @@ def process_packet(payload: bytes, source_addr: tuple):
 
     # Console output
     dest_label = result["node"]["label"]
-    print(
-        f"[{pkt_num:04d}] [{result['rule_id']}] "
-        f"{result['traffic_class']:<10} -> {dest_label} | "
-        f"{result['reason']}"
+    logger.info(
+        '[%04d] [%s] %-10s -> %s | %s',
+        pkt_num, result['rule_id'], result['traffic_class'],
+        dest_label, result['reason']
     )
 
 # -- UDP Listener -------------------------------------------------------------

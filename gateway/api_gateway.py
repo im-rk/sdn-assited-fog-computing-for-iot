@@ -162,6 +162,10 @@ async def dashboard():
     records = cloud_data_r.get("records",  []) if isinstance(cloud_data_r,  dict) else []
     routing = routing_r.get("events",      []) if isinstance(routing_r,     dict) else []
 
+    # Read proxy stats from nested dicts (by_node / by_class)
+    by_node  = proxy_s.get("by_node",  {})
+    by_class = proxy_s.get("by_class", {})
+
     return {
         "summary": {
             # Fog stats
@@ -174,14 +178,14 @@ async def dashboard():
             "cloud_data_points":   cloud_s.get("total_data_points", 0),
             "cloud_avg_latency_ms": cloud_s.get("avg_processing_time_ms", 0),
 
-            # SDN Proxy stats
+            # SDN Proxy stats — read from nested by_node / by_class dicts
             "sdn_total_packets":   proxy_s.get("total_packets", 0),
-            "sdn_fog_routed":      proxy_s.get("fog_routed", 0),
-            "sdn_cloud_routed":    proxy_s.get("cloud_routed", 0),
-            "sdn_emergency_count": proxy_s.get("emergency_count", 0),
-            "sdn_critical_count":  proxy_s.get("critical_count", 0),
-            "sdn_analytics_count": proxy_s.get("analytics_count", 0),
-            "sdn_bulk_count":      proxy_s.get("bulk_count", 0),
+            "sdn_fog_routed":      by_node.get("fog", 0),
+            "sdn_cloud_routed":    by_node.get("cloud", 0),
+            "sdn_emergency_count": by_class.get("EMERGENCY", 0),
+            "sdn_critical_count":  by_class.get("CRITICAL", 0),
+            "sdn_analytics_count": by_class.get("ANALYTICS", 0),
+            "sdn_bulk_count":      by_class.get("BULK", 0),
         },
         "recent_alerts":    alerts[-5:],
         "recent_analytics": records[-5:],

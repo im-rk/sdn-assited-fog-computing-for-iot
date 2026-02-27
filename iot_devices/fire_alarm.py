@@ -2,11 +2,15 @@
 """
 Fire Alarm Sensor Simulator
 ============================
-Sends fire/smoke alert data to the SDN Proxy.
+Sends fire/smoke sensor data to the SDN network endpoint.
 
 IMPORTANT: This device does NOT know whether data goes to Fog or Cloud.
-It just sends to the SDN Proxy on port 9000.
-The SDN Proxy performs DPI and decides the destination automatically.
+It only knows the single SDN endpoint address and sends all data there.
+
+In Simulation mode:  sends to sdn_proxy.py  (127.0.0.1:9000)
+In Mininet mode:     sends to 10.0.0.100:9000 — packets enter the OpenFlow
+                     switch, which sends them to the Ryu SDN controller for
+                     DPI and policy-driven routing to Fog or Cloud.
 """
 
 import json
@@ -16,9 +20,10 @@ import socket
 import argparse
 from datetime import datetime
 
-# Single SDN endpoint -- device knows NOTHING about Fog/Cloud
-SDN_PROXY_HOST = "127.0.0.1"   # In Mininet: 10.0.0.100
-SDN_PROXY_PORT = 9000           # The ONE port all IoT devices use
+# Single SDN endpoint — device knows NOTHING about Fog/Cloud
+# Simulation mode: 127.0.0.1  |  Mininet mode: 10.0.0.100 (passed via --host)
+SDN_ENDPOINT_HOST = "127.0.0.1"
+SDN_ENDPOINT_PORT = 9000
 
 SENSOR_ID  = "FIRE_001"
 LOCATION   = "Building A, Floor 2"
@@ -57,8 +62,8 @@ def send(payload: dict, host: str, port: int) -> bool:
 
 def main():
     parser = argparse.ArgumentParser(description="Fire Alarm Sensor Simulator")
-    parser.add_argument("--host",          default=SDN_PROXY_HOST)
-    parser.add_argument("--port",    type=int, default=SDN_PROXY_PORT)
+    parser.add_argument("--host",          default=SDN_ENDPOINT_HOST)
+    parser.add_argument("--port",    type=int, default=SDN_ENDPOINT_PORT)
     parser.add_argument("--interval",type=float, default=2.0,
                         help="Seconds between readings")
     parser.add_argument("--alarm-chance", type=float, default=0.15,

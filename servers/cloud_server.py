@@ -7,13 +7,14 @@ Runs on: 10.0.0.5:5002
 """
 
 import json
+import logging
 import socket
 import threading
 import time
+import random
 from datetime import datetime
 from collections import deque
 from flask import Flask, jsonify
-import logging
 
 # Configuration
 HOST = '0.0.0.0'
@@ -21,7 +22,8 @@ UDP_PORT = 5002  # Analytics data port
 HTTP_PORT = 5102  # API endpoint
 MAX_RECORDS = 1000  # Keep last 1000 data points
 
-# Shared data store
+# Shared data store — guarded by a lock (UDP thread + Flask thread both write)
+_lock = threading.Lock()
 analytics_data = deque(maxlen=MAX_RECORDS)
 stats = {
     'total_batches': 0,
@@ -34,29 +36,60 @@ stats = {
 # Flask app for API
 app = Flask(__name__)
 app.logger.setLevel(logging.WARNING)
+logger = logging.getLogger('CloudServer')
+
+
+def _infer_class_from_data(data: dict, server_role: str) -> str:
+    """
+    Fallback traffic class inference used in Mininet/Ryu mode.
+
+    In Mininet mode, the Ryu SDN controller rewrites packet headers via
+    OpenFlow (L2/L3/L4) but cannot inject a JSON field into the UDP payload.
+    So '_sdn_routing' metadata won't be present.  We infer from the server role.
+    """
+    if server_role == 'cloud':
+        # Everything that arrives at cloud was routed here as ANALYTICS or BULK
+        # by the Ryu controller.
+        return 'ANALYTICS'
+    return 'CRITICAL'
 
 
 def process_analytics_data(data):
-    """Process analytics data with heavy computation simulation."""
+    """
+    Process analytics data with heavy computation simulation.
+
+    Reads SDN routing metadata from '_sdn_routing' — no hardcoded logic.
+    Simulates realistic cloud latency (network hop + processing).
+    """
     receive_time = datetime.now()
     processing_start = time.time()
-    
-    # Simulate cloud processing (heavier than fog)
-    time.sleep(0.01)  # Simulate processing delay
-    
+
+    # Read SDN routing metadata (injected by sdn_proxy in simulation mode).
+    # In Mininet/Ryu mode, OpenFlow only rewrites headers — no payload injection.
+    # Fall back to inferring from the fact that we ARE the cloud server.
+    sdn_meta = data.get('_sdn_routing', {})
+    traffic_class = sdn_meta.get('traffic_class') or _infer_class_from_data(data, 'cloud')
+    rule_id       = sdn_meta.get('rule_id', 'OpenFlow-routed')
+
+    # Simulate realistic cloud processing delay in a non-blocking way:
+    # The sleep is inside process_analytics_data() which runs per-thread,
+    # so it never holds up the UDP receive loop.
+    time.sleep(random.uniform(0.05, 0.15))  # 50-150ms realistic cloud delay
+
     batch_size = len(data.get('data_points', []))
     data_size = len(json.dumps(data))
-    
+
     # Create record
     record = {
-        'id': stats['total_batches'] + 1,
-        'received_at': receive_time.isoformat(),
-        'sensor_id': data.get('sensor_id', 'UNKNOWN'),
-        'data_type': data.get('data_type', 'unknown'),
-        'batch_size': batch_size,
-        'payload_size_bytes': data_size,
-        'request_type': data.get('request_type', 'UNKNOWN'),
-        'status': 'PROCESSED'
+        'id':                  stats['total_batches'] + 1,
+        'received_at':         receive_time.isoformat(),
+        'sensor_id':           data.get('sensor_id', 'UNKNOWN'),
+        'data_type':           data.get('data_type', 'unknown'),
+        'batch_size':          batch_size,
+        'payload_size_bytes':  data_size,
+        'traffic_class':       traffic_class,
+        'rule_id':             rule_id,
+        'status':              'PROCESSED'
     }
     
     # Perform "analytics" - calculate statistics from data points
@@ -71,45 +104,52 @@ def process_analytics_data(data):
     
     processing_time = (time.time() - processing_start) * 1000  # ms
     record['processing_time_ms'] = round(processing_time, 2)
-    
-    # Update stats
-    stats['total_batches'] += 1
-    stats['total_data_points'] += batch_size
-    stats['total_bytes_received'] += data_size
-    stats['avg_processing_time_ms'] = round(
-        (stats['avg_processing_time_ms'] * (stats['total_batches'] - 1) + processing_time) / stats['total_batches'],
-        2
-    )
-    
-    # Store record
-    analytics_data.append(record)
+
+    # Update stats — protected by lock
+    with _lock:
+        stats['total_batches'] += 1
+        stats['total_data_points'] += batch_size
+        stats['total_bytes_received'] += data_size
+        stats['avg_processing_time_ms'] = round(
+            (stats['avg_processing_time_ms'] * (stats['total_batches'] - 1) + processing_time) / stats['total_batches'],
+            2
+        )
+        analytics_data.append(record)
     
     return record
 
 
-def udp_listener():
-    """Listen for incoming UDP packets."""
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind((HOST, UDP_PORT))
+def _handle_packet(data: bytes, addr: tuple):
+    """Process a single packet in its own thread — non-blocking listener."""
+    try:
+        message = json.loads(data.decode('utf-8'))
+        record = process_analytics_data(message)
+        logger.info(
+            '[%04d] Class=%-10s Points=%3d  Size=%.2fKB  Rule=%s  Time=%.2fms',
+            record['id'], record['traffic_class'], record['batch_size'],
+            record['payload_size_bytes'] / 1024, record['rule_id'],
+            record['processing_time_ms']
+        )
+    except json.JSONDecodeError as e:
+        logger.error('Invalid JSON from %s: %s', addr, e)
+    except Exception as e:
+        logger.exception('Packet handling error from %s: %s', addr, e)
 
-    print(f"Cloud Server UDP listening on {HOST}:{UDP_PORT}")
+
+def udp_listener():
+    """Listen for incoming UDP packets. Each packet is dispatched to its own
+    thread so the 50-150ms cloud delay never blocks the receive loop."""
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind((HOST, UDP_PORT))
+    logger.info('Cloud Server UDP listening on %s:%d', HOST, UDP_PORT)
 
     while True:
         try:
             data, addr = sock.recvfrom(65535)
-            message = json.loads(data.decode('utf-8'))
-
-            record = process_analytics_data(message)
-
-            print(f"[{record['id']}] PROCESSED | "
-                  f"Points: {record['batch_size']} | "
-                  f"Size: {record['payload_size_bytes']/1024:.2f}KB | "
-                  f"Time: {record['processing_time_ms']}ms")
-
-        except json.JSONDecodeError as e:
-            print(f"[ERROR] Invalid JSON: {e}")
+            threading.Thread(target=_handle_packet, args=(data, addr), daemon=True).start()
         except Exception as e:
-            print(f"[ERROR] {e}")
+            logger.error('Listener error: %s', e)
 
 
 @app.route('/health', methods=['GET'])
@@ -121,21 +161,22 @@ def health():
 @app.route('/stats', methods=['GET'])
 def get_stats():
     """Get server statistics."""
+    with _lock:
+        snapshot = dict(stats)
+    uptime = (datetime.now() - datetime.fromisoformat(snapshot['start_time'])).total_seconds()
     return jsonify({
-        'stats': stats,
-        'uptime_seconds': (datetime.now() - datetime.fromisoformat(stats['start_time'])).total_seconds(),
-        'throughput_kbps': round(stats['total_bytes_received'] / 1024 /
-                                 max(1, (datetime.now() - datetime.fromisoformat(stats['start_time'])).total_seconds()), 2)
+        'stats': snapshot,
+        'uptime_seconds': uptime,
+        'throughput_kbps': round(snapshot['total_bytes_received'] / 1024 / max(1, uptime), 2)
     })
 
 
 @app.route('/data', methods=['GET'])
 def get_data():
     """Get processed analytics data."""
-    return jsonify({
-        'count': len(analytics_data),
-        'records': list(analytics_data)[-50:]  # Return last 50
-    })
+    with _lock:
+        data = list(analytics_data)[-50:]
+    return jsonify({'count': len(data), 'records': data})
 
 
 @app.route('/data/summary', methods=['GET'])
@@ -157,19 +198,20 @@ def get_summary():
 
 
 def main():
-    print("=" * 60)
-    print("CLOUD SERVER - Heavy Analytics Processing")
-    print("=" * 60)
-    print(f"UDP Port: {UDP_PORT} (for ANALYTICS IoT data)")
-    print(f"HTTP Port: {HTTP_PORT} (for API access)")
-    print(f"ML/Analytics processing enabled")
-    print("=" * 60)
+    logging.basicConfig(
+        format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+        level=logging.INFO,
+        datefmt='%H:%M:%S'
+    )
+    logger.info('=' * 60)
+    logger.info('CLOUD SERVER - Heavy Analytics Processing')
+    logger.info('UDP Port : %d (ANALYTICS / BULK traffic)', UDP_PORT)
+    logger.info('HTTP Port: %d (REST API)', HTTP_PORT)
+    logger.info('=' * 60)
 
-    # Start UDP listener in background
     udp_thread = threading.Thread(target=udp_listener, daemon=True)
     udp_thread.start()
 
-    # Start Flask API
     app.run(host=HOST, port=HTTP_PORT, debug=False, use_reloader=False)
 
 

@@ -3,111 +3,99 @@
 ## System Overview
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           SYSTEM ARCHITECTURE                               │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐                                  │
-│  │   Temp   │  │   Fire   │  │Analytics │    IoT Layer                     │
-│  │  Sensor  │  │  Alarm   │  │Generator │                                  │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘                                  │
-│       │             │             │                                         │
-│       └─────────────┼─────────────┘                                         │
-│                     │ UDP                                                   │
-│                     ▼                                                       │
-│            ┌────────────────┐         ┌─────────────────┐                  │
-│            │   SDN Switch   │◄───────►│  SDN Controller │  Network Layer   │
-│            │   (Mininet)    │         │     (Ryu)       │                  │
-│            └───────┬────────┘         └─────────────────┘                  │
-│                    │                                                        │
-│       ┌────────────┼────────────┐                                          │
-│       │ CRITICAL   │   ANALYTICS│                                          │
-│       ▼            │            ▼                                          │
-│  ┌─────────┐       │       ┌─────────┐                                     │
-│  │   Fog   │       │       │  Cloud  │   Processing Layer                  │
-│  │ :5001   │       │       │  :5002  │                                     │
-│  └────┬────┘       │       └────┬────┘                                     │
-│       │            │            │                                          │
-│       └────────────┼────────────┘                                          │
-│                    ▼                                                        │
-│            ┌───────────────┐                                               │
-│            │  API Gateway  │   Gateway Layer                               │
-│            │    :8000      │                                               │
-│            └───────┬───────┘                                               │
-│                    ▼                                                        │
-│            ┌───────────────┐                                               │
-│            │   Dashboard   │   Presentation Layer                          │
-│            └───────────────┘                                               │
-└─────────────────────────────────────────────────────────────────────────────┘
++-----------------------------------------------------------------------------+
+|                           SYSTEM ARCHITECTURE                               |
++-----------------------------------------------------------------------------+
+|                                                                             |
+|  +----------+  +----------+  +----------+                                  |
+|  |   Temp   |  |   Fire   |  |Analytics |    IoT Layer                     |
+|  |  Sensor  |  |  Alarm   |  |Generator |    (h1/h2/h3 in Mininet)         |
+|  +-----+----+  +-----+----+  +-----+----+                                  |
+|        |             |             |                                        |
+|        +-------------+-------------+                                        |
+|                UDP to 10.0.0.100:9000 (devices know ONLY this)             |
+|                      |                                                      |
+|                      v                                                      |
+|         +-----------------+   table-miss   +-----------------+             |
+|         |  OpenFlow        +--------------->  Ryu SDN         |             |
+|         |  Switch (s1)     <---------------+  Controller      |             |
+|         |  (Mininet OVS)  |  PacketOut +   |  sdn_controller  |             |
+|         +--------+--------+  FlowRule     |  .py             |             |
+|      rewritten   |                        |                  |             |
+|      dst IP+port |          PolicyEngine <--  routing_policy  |             |
+|                  |          (JSON rules)      _mininet.json  |             |
+|        +---------+-----------+            +-----------------+             |
+|        v                     v                                             |
+|  +-----------+         +-----------+                                       |
+|  |  Fog      |         |  Cloud    |   Processing Layer                    |
+|  |  10.0.0.4 |         |  10.0.0.5 |                                       |
+|  |  UDP:5001 |         |  UDP:5002 |                                       |
+|  |  HTTP:5101|         |  HTTP:5102|                                       |
+|  +-----+-----+         +-----+-----+                                       |
+|        |                     |                                             |
+|        +----------+----------+                                             |
+|                   v                                                        |
+|          +---------------+                                                 |
+|          |  API Gateway  |   Gateway Layer                                 |
+|          |    :8000      |                                                 |
+|          +-------+-------+                                                 |
+|                  v                                                         |
+|          +---------------+                                                 |
+|          |   Dashboard   |   Presentation Layer                            |
+|          +---------------+                                                 |
++-----------------------------------------------------------------------------+
 ```
 
 ## Components
 
 | Component | Port | Purpose |
 |-----------|------|---------|
-| Temperature Sensor | - | Sends analytics data (ANALYTICS type) |
-| Fire Alarm | - | Sends critical alerts (CRITICAL type) |
-| Analytics Generator | - | Sends bulk historical data |
-| SDN Switch | - | OpenFlow switch routing packets |
-| SDN Controller | 6633 | Ryu controller with routing rules |
-| Fog Server | 5001 (UDP), 5101 (HTTP) | Low-latency edge processing |
-| Cloud Server | 5002 (UDP), 5102 (HTTP) | Heavy analytics processing |
-| API Gateway | 8000 | Aggregates data for dashboard |
+| Temperature Sensor (h2) | - | Sends periodic sensor readings → SDN decides destination |
+| Fire Alarm Sensor (h1) | - | Sends smoke/alarm readings → SDN decides destination |
+| Analytics Generator (h3) | - | Sends bulk historical batches → SDN decides destination |
+| OpenFlow Switch (s1) | - | Hardware-level packet switching, executes installed flow rules |
+| Ryu SDN Controller | 6633 | DPI + PolicyEngine + OpenFlow flow rule installation at switch |
+| Fog Server | UDP:5001 / HTTP:5101 | Low-latency edge processing (sub-ms) |
+| Cloud Server | UDP:5002 / HTTP:5102 | Heavy analytics processing (50–150ms) |
+| API Gateway | 8000 | Aggregates Fog + Cloud + SDN Proxy into one REST API |
 
-## Data Flow
+## Data Flow (Real SDN Mode — Ryu + Mininet)
 
-1. **IoT sensors** generate data with type identifier (CRITICAL/ANALYTICS)
-2. **SDN Switch** receives packets
-3. **SDN Controller** inspects packets and determines route:
-   - Port 5001 → Fog Node
-   - Port 5002 → Cloud Node
-4. **Fog/Cloud servers** process data and expose REST APIs
-5. **API Gateway** aggregates data from both servers
-6. **Dashboard** polls gateway and displays real-time metrics
+1. **IoT sensors** send raw UDP JSON payloads to `10.0.0.100:9000`
+   — they know nothing about Fog or Cloud
+2. **OpenFlow Switch (s1)** receives the packet — no matching flow rule
+   → sends **PacketIn** event to the Ryu controller
+3. **Ryu SDN Controller** performs Deep Packet Inspection:
+   - Parses the UDP payload (JSON sensor data)
+   - Passes to **PolicyEngine** which evaluates rules from `routing_policy_mininet.json`
+   - Gets routing decision: node (fog/cloud), traffic_class, reason
+   - Uses `OFPActionSetField` to rewrite `eth_dst` + `ipv4_dst` + `udp_dst` at the switch
+   - Installs a short-lived flow rule (idle_timeout=5s) on the switch
+   - Sends the packet immediately via PacketOut
+4. **Fog / Cloud server** receives the packet, reads SDN routing metadata
+   — zero hardcoded logic, acts on what the SDN layer decided
+5. **API Gateway** aggregates data from Fog + Cloud + SDN Proxy REST APIs
+6. **Dashboard** polls `/dashboard` every 3 seconds and displays live metrics
+
+## Data Flow (Simulation Mode — sdn_proxy.py)
+
+Same routing logic, no virtual network:
+1. IoT devices send UDP to `127.0.0.1:9000`
+2. `sdn_proxy.py` receives, calls PolicyEngine, enriches payload with `_sdn_routing`
+   metadata, and forwards to Fog (`:5001`) or Cloud (`:5002`) directly
 
 ## Running the Project
 
-### Step 1: Install Dependencies
+### Option A — Real SDN Mode (Ryu + Mininet)
 ```bash
-pip install -r requirements.txt
-sudo apt-get install mininet
+# One command starts everything:
+./run_mininet.sh
 ```
 
-### Step 2: Start Servers (in separate terminals)
+### Option B — Simulation Mode (no Mininet needed)
 ```bash
-# Terminal 1: Fog Server
-python servers/fog_server.py
-
-# Terminal 2: Cloud Server
-python servers/cloud_server.py
-
-# Terminal 3: API Gateway
-python gateway/api_gateway.py
+./run_all.sh
 ```
 
-### Step 3: Start IoT Simulators
-```bash
-# Terminal 4: Fire Alarm
-python iot_devices/fire_alarm.py
-
-# Terminal 5: Temperature Sensor
-python iot_devices/temperature_sensor.py
-
-# Terminal 6: Analytics Generator
-python iot_devices/analytics_generator.py
-```
-
-### Step 4: Open Dashboard
-Open `dashboard/index.html` in a browser or serve with:
-```bash
-cd dashboard && python -m http.server 8080
-```
-
-### (Optional) Run with Mininet
-```bash
-# Terminal: Start Ryu Controller
-ryu-manager controller/sdn_controller.py
-
-# Terminal: Start Mininet Topology
-sudo python topology/network_topology.py
-```
+### Dashboard
+Open `dashboard/index.html` in your browser after starting either mode.
