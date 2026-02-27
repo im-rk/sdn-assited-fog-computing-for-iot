@@ -1,0 +1,19 @@
+# Core
+flask>=3.0.0
+fastapi>=0.109.0
+uvicorn>=0.27.0
+paho-mqtt>=2.0.0
+
+# Utilities
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# Data handling
+aiohttp>=3.9.1
+
+# For async support
+websockets>=12.0
+
+# Note: Ryu SDN Controller should be installed separately
+# For Ubuntu/Debian: pip install ryu (may need Python 3.9/3.10)
+# Alternative: Use OS package manager or Docker

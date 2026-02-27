@@ -1,0 +1,103 @@
+{
+  "_comment": "SDN Routing Policy Configuration — edit this file to change routing without touching code",
+
+  "version": "1.0",
+  "policy_name": "fog_computing_iot",
+
+  "nodes": {
+    "_comment": "All destination nodes. Change IPs here — nowhere in code.",
+    "fog": {
+      "label": "Fog Edge Server",
+      "host": "127.0.0.1",
+      "port": 5001,
+      "type": "udp"
+    },
+    "cloud": {
+      "label": "Cloud Analytics Server",
+      "host": "127.0.0.1",
+      "port": 5002,
+      "type": "udp"
+    }
+  },
+
+  "collection_endpoint": {
+    "_comment": "Single port ALL IoT devices send to. Change here to use any port.",
+    "host": "0.0.0.0",
+    "port": 9000
+  },
+
+  "rules": [
+    {
+      "id": "R001",
+      "name": "Emergency smoke level",
+      "priority": 100,
+      "conditions": [
+        { "field": "smoke_level", "operator": ">=", "value": 80 }
+      ],
+      "action": { "route_to": "fog", "traffic_class": "EMERGENCY" }
+    },
+    {
+      "id": "R002",
+      "name": "Critical smoke level",
+      "priority": 90,
+      "conditions": [
+        { "field": "smoke_level", "operator": ">=", "value": 50 }
+      ],
+      "action": { "route_to": "fog", "traffic_class": "CRITICAL" }
+    },
+    {
+      "id": "R003",
+      "name": "Sensor alarm status",
+      "priority": 85,
+      "conditions": [
+        { "field": "status", "operator": "in", "value": ["ALARM", "EMERGENCY", "DANGER"] }
+      ],
+      "action": { "route_to": "fog", "traffic_class": "CRITICAL" }
+    },
+    {
+      "id": "R004",
+      "name": "Dangerous high temperature",
+      "priority": 80,
+      "conditions": [
+        { "field": "data_type", "operator": "==", "value": "temperature" },
+        { "field": "value",     "operator": ">=", "value": 45.0 }
+      ],
+      "action": { "route_to": "fog", "traffic_class": "CRITICAL" }
+    },
+    {
+      "id": "R005",
+      "name": "Dangerous low temperature",
+      "priority": 80,
+      "conditions": [
+        { "field": "data_type", "operator": "==", "value": "temperature" },
+        { "field": "value",     "operator": "<=", "value": 0.0 }
+      ],
+      "action": { "route_to": "fog", "traffic_class": "CRITICAL" }
+    },
+    {
+      "id": "R006",
+      "name": "Hazardous air quality",
+      "priority": 75,
+      "conditions": [
+        { "field": "air_quality_index", "operator": ">=", "value": 150 }
+      ],
+      "action": { "route_to": "fog", "traffic_class": "CRITICAL" }
+    },
+    {
+      "id": "R007",
+      "name": "Bulk data — many points",
+      "priority": 50,
+      "conditions": [
+        { "field": "num_points", "operator": ">=", "value": 20 }
+      ],
+      "action": { "route_to": "cloud", "traffic_class": "BULK" }
+    },
+    {
+      "id": "R008",
+      "name": "Default — analytics",
+      "priority": 0,
+      "conditions": [],
+      "action": { "route_to": "cloud", "traffic_class": "ANALYTICS" }
+    }
+  ]
+}

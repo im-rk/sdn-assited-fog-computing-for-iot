@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDN-IoT Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>SDN-Assisted Fog Computing Dashboard</h1>
+                <div class="status-indicator">
+                    <span id="conn-dot" class="status-dot offline"></span>
+                    <span id="conn-text">Connecting...</span>
+                </div>
+            </div>
+            <p class="header-sub">All routing is automatic via Deep Packet Inspection - IoT devices know nothing about
+                Fog or Cloud</p>
+        </header>
+
+        <!-- SDN Proxy Stats (top row) -->
+        <section class="sdn-stats-bar">
+            <div class="sdn-stat">
+                <span class="sdn-val" id="sdn-total">0</span>
+                <span class="sdn-lbl">Total Packets</span>
+            </div>
+            <div class="sdn-stat fog-accent">
+                <span class="sdn-val" id="sdn-fog">0</span>
+                <span class="sdn-lbl">-> Fog Routed</span>
+            </div>
+            <div class="sdn-stat cloud-accent">
+                <span class="sdn-val" id="sdn-cloud">0</span>
+                <span class="sdn-lbl">-> Cloud Routed</span>
+            </div>
+            <div class="sdn-stat emergency-accent">
+                <span class="sdn-val" id="sdn-emergency">0</span>
+                <span class="sdn-lbl">Emergency</span>
+            </div>
+            <div class="sdn-stat critical-accent">
+                <span class="sdn-val" id="sdn-critical">0</span>
+                <span class="sdn-lbl">Critical</span>
+            </div>
+            <div class="sdn-stat">
+                <span class="sdn-val" id="sdn-analytics">0</span>
+                <span class="sdn-lbl">Analytics</span>
+            </div>
+        </section>
+
+        <!-- Server Cards -->
+        <section class="stats-grid">
+            <div class="card fog-card">
+                <div class="card-header">
+                    <h2>Fog Server</h2>
+                    <span class="badge badge-fog">Edge Processing</span>
+                </div>
+                <div class="card-body">
+                    <div class="stat-row">
+                        <div class="stat"><span class="stat-value" id="fog-alerts">0</span><span
+                                class="stat-label">Total Alerts</span></div>
+                        <div class="stat"><span class="stat-value" id="fog-critical">0</span><span
+                                class="stat-label">Critical</span></div>
+                        <div class="stat"><span class="stat-value" id="fog-latency">0ms</span><span
+                                class="stat-label">Avg Latency</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card cloud-card">
+                <div class="card-header">
+                    <h2>Cloud Server</h2>
+                    <span class="badge badge-cloud">Heavy Analytics</span>
+                </div>
+                <div class="card-body">
+                    <div class="stat-row">
+                        <div class="stat"><span class="stat-value" id="cloud-batches">0</span><span
+                                class="stat-label">Batches</span></div>
+                        <div class="stat"><span class="stat-value" id="cloud-points">0</span><span
+                                class="stat-label">Data Points</span></div>
+                        <div class="stat"><span class="stat-value" id="cloud-latency">0ms</span><span
+                                class="stat-label">Avg Latency</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latency + Donut -->
+        <section class="stats-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Latency Comparison</h2>
+                </div>
+                <div class="card-body">
+                    <div class="latency-bars">
+                        <div class="latency-bar-container">
+                            <span class="latency-label">Fog (Edge)</span>
+                            <div class="latency-bar">
+                                <div class="latency-fill fog-fill" id="fog-bar"></div>
+                            </div>
+                            <span class="latency-value" id="fog-bar-val">0ms</span>
+                        </div>
+                        <div class="latency-bar-container">
+                            <span class="latency-label">Cloud</span>
+                            <div class="latency-bar">
+                                <div class="latency-fill cloud-fill" id="cloud-bar"></div>
+                            </div>
+                            <span class="latency-value" id="cloud-bar-val">0ms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2>Traffic Split (SDN Routing)</h2>
+                </div>
+                <div class="card-body donut-body">
+                    <div class="donut" id="donut-ring"></div>
+                    <div class="donut-legend">
+                        <div><span class="dot fog-dot"></span> Fog: <strong id="donut-fog">0%</strong></div>
+                        <div><span class="dot cloud-dot"></span> Cloud: <strong id="donut-cloud">0%</strong></div>
+                        <div class="donut-total" id="donut-total">0 pkts</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DPI Routing Log -->
+        <section class="full-card">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Live DPI Routing Decisions</h2>
+                    <span class="badge badge-cloud">SDN Proxy</span>
+                </div>
+                <div class="card-body">
+                    <div class="feed-list" id="routing-feed">
+                        <div class="feed-empty">Waiting for traffic...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fog Alerts + Cloud Analytics -->
+        <section class="feeds-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Fog Alerts</h2><span class="badge badge-fog">Fog</span>
+                </div>
+                <div class="card-body">
+                    <div class="feed-list" id="alerts-feed">
+                        <div class="feed-empty">No alerts yet</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2>Cloud Analytics</h2><span class="badge badge-cloud">Cloud</span>
+                </div>
+                <div class="card-body">
+                    <div class="feed-list" id="analytics-feed">
+                        <div class="feed-empty">No analytics yet</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            SDN-Assisted Fog Computing for IoT&nbsp;|&nbsp;Last updated: <span id="last-update">-</span>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
