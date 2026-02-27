@@ -158,6 +158,23 @@ async function refresh() {
       ? recs.map(analyticsItem).join('')
       : '<div class="feed-empty">No analytics yet</div>';
 
+    // Latency evaluation comparison
+    const lc = data.latency_comparison || {};
+    const fogLc   = lc.fog   || {};
+    const cloudLc = lc.cloud || {};
+    el('eval-fog-avg').textContent   = fogLc.avg_total_ms   ? fogLc.avg_total_ms   + 'ms' : '-';
+    el('eval-cloud-avg').textContent = cloudLc.avg_total_ms ? cloudLc.avg_total_ms + 'ms' : '-';
+    el('eval-fog-p95').textContent   = fogLc.p95_ms   ? fogLc.p95_ms   + 'ms' : '-';
+    el('eval-cloud-p95').textContent = cloudLc.p95_ms ? cloudLc.p95_ms + 'ms' : '-';
+    el('eval-fog-p99').textContent   = fogLc.p99_ms   ? fogLc.p99_ms   + 'ms' : '-';
+    el('eval-cloud-p99').textContent = cloudLc.p99_ms ? cloudLc.p99_ms + 'ms' : '-';
+    el('eval-fog-samples').textContent   = fogLc.samples   || 0;
+    el('eval-cloud-samples').textContent = cloudLc.samples || 0;
+    if (lc.verdict) {
+      el('eval-verdict').textContent = lc.verdict;
+      el('eval-verdict').className   = 'eval-verdict ' + (lc.speedup_factor ? 'eval-active' : '');
+    }
+
     el('last-update').textContent = new Date().toLocaleTimeString();
 
   } catch {

@@ -23,7 +23,10 @@ MAX_ALERTS = 100  # Keep last 100 alerts
 
 # Shared data store — guarded by a lock (UDP thread + Flask thread both write)
 _lock = threading.Lock()
-alerts_queue = deque(maxlen=MAX_ALERTS)
+alerts_queue  = deque(maxlen=MAX_ALERTS)
+# Rolling window of latency samples for percentile computation
+_processing_samples = deque(maxlen=200)   # server-side processing time (ms)
+_e2e_samples        = deque(maxlen=200)   # end-to-end: device send → server receive (ms)
 stats = {
     'total_alerts': 0,
     'critical_count': 0,
@@ -36,6 +39,33 @@ stats = {
 app = Flask(__name__)
 app.logger.setLevel(logging.WARNING)
 logger = logging.getLogger('FogServer')
+
+
+# ── Latency helpers ───────────────────────────────────────────────────────────
+def _percentile(samples: list, p: int) -> float:
+    """Compute the p-th percentile using linear interpolation."""
+    if not samples:
+        return 0.0
+    s = sorted(samples)
+    k = (len(s) - 1) * p / 100
+    lo, hi = int(k), min(int(k) + 1, len(s) - 1)
+    return round(s[lo] + (s[hi] - s[lo]) * (k - lo), 2)
+
+
+def _latency_stats(samples: list) -> dict:
+    """Return min/avg/p50/p95/p99/max from a sample list."""
+    if not samples:
+        return {'count': 0, 'min_ms': 0, 'avg_ms': 0,
+                'p50_ms': 0, 'p95_ms': 0, 'p99_ms': 0, 'max_ms': 0}
+    return {
+        'count':  len(samples),
+        'min_ms': round(min(samples), 2),
+        'avg_ms': round(sum(samples) / len(samples), 2),
+        'p50_ms': _percentile(samples, 50),
+        'p95_ms': _percentile(samples, 95),
+        'p99_ms': _percentile(samples, 99),
+        'max_ms': round(max(samples), 2),
+    }
 
 
 def _infer_class_from_data(data: dict, server_role: str) -> str:
@@ -65,6 +95,18 @@ def process_critical_alert(data):
     """
     receive_time = datetime.now()
     processing_start = time.time()
+
+    # End-to-end latency: time from when IoT device sent the packet to when
+    # this server received it.  Uses the 'timestamp' field in every payload.
+    # On LAN / same-machine simulation this will be sub-millisecond.
+    e2e_ms = 0.0
+    payload_ts = data.get('timestamp')
+    if payload_ts:
+        try:
+            e2e_ms = max(0.0, (receive_time - datetime.fromisoformat(payload_ts))
+                         .total_seconds() * 1000)
+        except Exception:
+            pass
 
     # Read SDN routing metadata (injected by the proxy — no hardcoding)
     # In Mininet/Ryu mode, OpenFlow only rewrites headers (no payload injection),
@@ -111,7 +153,9 @@ def process_critical_alert(data):
             stats['warning_count'] += 1
 
     processing_time = (time.time() - processing_start) * 1000  # ms
-    alert['processing_time_ms'] = round(processing_time, 2)
+    alert['processing_time_ms']  = round(processing_time, 2)
+    alert['e2e_latency_ms']      = round(e2e_ms, 2)
+    alert['total_latency_ms']    = round(e2e_ms + processing_time, 2)
 
     # Update stats — protected by lock
     with _lock:
@@ -120,6 +164,8 @@ def process_critical_alert(data):
             (stats['avg_response_time_ms'] * (stats['total_alerts'] - 1) + processing_time) / stats['total_alerts'],
             2
         )
+        _processing_samples.append(processing_time)
+        _e2e_samples.append(e2e_ms)
         alerts_queue.append(alert)
 
     return alert
@@ -191,6 +237,36 @@ def get_latest_alert():
     if alerts_queue:
         return jsonify(alerts_queue[-1])
     return jsonify({'message': 'No alerts yet'}), 404
+
+
+@app.route('/metrics', methods=['GET'])
+def get_metrics():
+    """
+    Latency evaluation metrics for Fog server.
+    Shows why EMERGENCY/CRITICAL traffic must be routed here instead of Cloud.
+    """
+    with _lock:
+        proc = list(_processing_samples)
+        e2e  = list(_e2e_samples)
+        total = [p + e for p, e in zip(proc, e2e)]
+        snapshot = dict(stats)
+
+    return jsonify({
+        'server':       'fog',
+        'role':         'Edge node — CRITICAL/EMERGENCY traffic',
+        'total_packets': snapshot['total_alerts'],
+        'latency': {
+            'processing_ms':   _latency_stats(proc),
+            'e2e_ms':          _latency_stats(e2e),
+            'total_ms':        _latency_stats(total),
+        },
+        'justification': (
+            'Fog is co-located on the local network (LAN). '
+            'Processing latency is sub-millisecond. '
+            'EMERGENCY packets are routed here by the SDN controller '
+            'to guarantee fast, life-critical response.'
+        )
+    })
 
 
 def main():

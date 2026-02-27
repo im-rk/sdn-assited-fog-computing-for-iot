@@ -140,11 +140,63 @@ async def sdn_routing_log():
     return r
 
 
+@app.get("/metrics/comparison")
+async def metrics_comparison():
+    """
+    Latency evaluation: Fog vs Cloud side-by-side.
+
+    This is the core justification for SDN-Assisted Fog Computing:
+    Emergency packets routed to Fog are processed in <5ms.
+    The same packet sent to Cloud would take 50-150ms extra.
+    The SDN controller makes this routing decision automatically via DPI.
+    """
+    async with aiohttp.ClientSession() as s:
+        fog_m, cloud_m = await asyncio.gather(
+            fetch(s, f"{FOG_URL}/metrics"),
+            fetch(s, f"{CLOUD_URL}/metrics"),
+        )
+
+    fog_avg   = (fog_m.get('latency',   {}).get('total_ms',    {}) or {}).get('avg_ms', 0)
+    cloud_avg = (cloud_m.get('latency', {}).get('total_ms',    {}) or {}).get('avg_ms', 0)
+    fog_p95   = (fog_m.get('latency',   {}).get('total_ms',    {}) or {}).get('p95_ms', 0)
+    cloud_p95 = (cloud_m.get('latency', {}).get('total_ms',    {}) or {}).get('p95_ms', 0)
+    fog_p99   = (fog_m.get('latency',   {}).get('total_ms',    {}) or {}).get('p99_ms', 0)
+    cloud_p99 = (cloud_m.get('latency', {}).get('total_ms',    {}) or {}).get('p99_ms', 0)
+
+    speedup = round(cloud_avg / fog_avg, 1) if fog_avg > 0 else None
+
+    return {
+        'fog':   fog_m,
+        'cloud': cloud_m,
+        'comparison': {
+            'fog_avg_total_ms':   fog_avg,
+            'cloud_avg_total_ms': cloud_avg,
+            'fog_p95_ms':         fog_p95,
+            'cloud_p95_ms':       cloud_p95,
+            'fog_p99_ms':         fog_p99,
+            'cloud_p99_ms':       cloud_p99,
+            'speedup_factor':     speedup,
+            'verdict': (
+                f'Fog is {speedup}× faster than Cloud' if speedup
+                else 'Waiting for traffic data'
+            ),
+            'sdn_decision': (
+                'SDN controller routes EMERGENCY/CRITICAL → Fog '
+                f'({fog_avg}ms avg) to avoid Cloud delay ({cloud_avg}ms avg). '
+                f'This is {speedup}× faster emergency response.'
+                if speedup else
+                'No traffic yet — both servers waiting for IoT packets.'
+            ),
+        },
+        'timestamp': datetime.now().isoformat()
+    }
+
+
 @app.get("/dashboard")
 async def dashboard():
     """Aggregated snapshot for the dashboard - one call gets everything."""
     async with aiohttp.ClientSession() as s:
-        fog_stats_r, fog_alerts_r, cloud_stats_r, cloud_data_r, proxy_r, routing_r = \
+        fog_stats_r, fog_alerts_r, cloud_stats_r, cloud_data_r, proxy_r, routing_r, fog_m, cloud_m = \
             await asyncio.gather(
                 fetch(s, f"{FOG_URL}/stats"),
                 fetch(s, f"{FOG_URL}/alerts"),
@@ -152,6 +204,8 @@ async def dashboard():
                 fetch(s, f"{CLOUD_URL}/data"),
                 fetch(s, f"{PROXY_URL}/stats"),
                 fetch(s, f"{PROXY_URL}/routing-log"),
+                fetch(s, f"{FOG_URL}/metrics"),
+                fetch(s, f"{CLOUD_URL}/metrics"),
             )
 
     fog_s   = fog_stats_r.get("stats",   {}) if isinstance(fog_stats_r,   dict) else {}
@@ -165,6 +219,16 @@ async def dashboard():
     # Read proxy stats from nested dicts (by_node / by_class)
     by_node  = proxy_s.get("by_node",  {})
     by_class = proxy_s.get("by_class", {})
+
+    # Latency comparison metrics (Fog vs Cloud — the core SDN justification)
+    fog_total   = (fog_m.get('latency',   {}).get('total_ms',  {}) or {}) if isinstance(fog_m,   dict) else {}
+    cloud_total = (cloud_m.get('latency', {}).get('total_ms',  {}) or {}) if isinstance(cloud_m, dict) else {}
+    fog_proc    = (fog_m.get('latency',   {}).get('processing_ms', {}) or {}) if isinstance(fog_m,   dict) else {}
+    cloud_proc  = (cloud_m.get('latency', {}).get('processing_ms', {}) or {}) if isinstance(cloud_m, dict) else {}
+
+    fog_avg_total   = fog_total.get('avg_ms', 0)
+    cloud_avg_total = cloud_total.get('avg_ms', 0)
+    speedup = round(cloud_avg_total / fog_avg_total, 1) if fog_avg_total > 0 else None
 
     return {
         "summary": {
@@ -186,6 +250,31 @@ async def dashboard():
             "sdn_critical_count":  by_class.get("CRITICAL", 0),
             "sdn_analytics_count": by_class.get("ANALYTICS", 0),
             "sdn_bulk_count":      by_class.get("BULK", 0),
+        },
+        # ── Latency evaluation metrics ────────────────────────────────────────
+        # This is the core evidence for why SDN+Fog computing is beneficial.
+        # Emergency packets go to Fog (≪ 5ms) not Cloud (50–150ms).
+        "latency_comparison": {
+            "fog": {
+                "avg_processing_ms":  fog_proc.get('avg_ms', 0),
+                "avg_total_ms":       fog_avg_total,
+                "p95_ms":             fog_total.get('p95_ms', 0),
+                "p99_ms":             fog_total.get('p99_ms', 0),
+                "samples":            fog_total.get('count', 0),
+            },
+            "cloud": {
+                "avg_processing_ms":  cloud_proc.get('avg_ms', 0),
+                "avg_total_ms":       cloud_avg_total,
+                "p95_ms":             cloud_total.get('p95_ms', 0),
+                "p99_ms":             cloud_total.get('p99_ms', 0),
+                "samples":            cloud_total.get('count', 0),
+            },
+            "speedup_factor": speedup,
+            "verdict": (
+                f'Fog is {speedup}× faster than Cloud — '
+                f'{fog_avg_total}ms vs {cloud_avg_total}ms avg total latency'
+                if speedup else 'Waiting for traffic...'
+            ),
         },
         "recent_alerts":    alerts[-5:],
         "recent_analytics": records[-5:],

@@ -46,7 +46,11 @@ class PolicyEngine:
         with open(self.policy_path, "r") as f:
             self.policy = json.load(f)
 
-        self.nodes = self.policy["nodes"]
+        # Filter out comment keys — only keep actual node dicts
+        self.nodes = {
+            k: v for k, v in self.policy["nodes"].items()
+            if isinstance(v, dict)
+        }
         # Sort rules by priority descending — highest priority evaluated first
         self.rules = sorted(
             self.policy["rules"],

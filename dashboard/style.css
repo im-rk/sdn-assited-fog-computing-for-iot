@@ -461,3 +461,40 @@ body {
 .cloud-dot { background: var(--accent-cloud); }
 .donut-total { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
 
+/* ── Latency Evaluation Panel ────────────────────────────────────── */
+.eval-card { border-top: 2px solid var(--accent-warning); }
+
+.eval-verdict {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 10px 0 18px;
+    letter-spacing: 0.02em;
+}
+.eval-verdict.eval-active { color: var(--accent-warning); font-size: 1.4rem; }
+
+.eval-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    margin-bottom: 16px;
+}
+.eval-table th, .eval-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+.eval-table thead th { color: var(--text-secondary); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; }
+.eval-table tbody tr:last-child td { border-bottom: none; }
+.eval-table .fog-col   { color: var(--accent-fog);   font-weight: 600; }
+.eval-table .cloud-col { color: var(--accent-cloud); font-weight: 600; }
+
+.eval-note {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 12px;
+    font-style: italic;
+}

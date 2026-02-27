@@ -25,6 +25,9 @@ MAX_RECORDS = 1000  # Keep last 1000 data points
 # Shared data store — guarded by a lock (UDP thread + Flask thread both write)
 _lock = threading.Lock()
 analytics_data = deque(maxlen=MAX_RECORDS)
+# Rolling window of latency samples for percentile computation
+_processing_samples = deque(maxlen=200)   # server-side processing time (ms)
+_e2e_samples        = deque(maxlen=200)   # end-to-end: device send → server receive (ms)
 stats = {
     'total_batches': 0,
     'total_data_points': 0,
@@ -37,6 +40,33 @@ stats = {
 app = Flask(__name__)
 app.logger.setLevel(logging.WARNING)
 logger = logging.getLogger('CloudServer')
+
+
+# ── Latency helpers ───────────────────────────────────────────────────────────
+def _percentile(samples: list, p: int) -> float:
+    """Compute the p-th percentile using linear interpolation."""
+    if not samples:
+        return 0.0
+    s = sorted(samples)
+    k = (len(s) - 1) * p / 100
+    lo, hi = int(k), min(int(k) + 1, len(s) - 1)
+    return round(s[lo] + (s[hi] - s[lo]) * (k - lo), 2)
+
+
+def _latency_stats(samples: list) -> dict:
+    """Return min/avg/p50/p95/p99/max from a sample list."""
+    if not samples:
+        return {'count': 0, 'min_ms': 0, 'avg_ms': 0,
+                'p50_ms': 0, 'p95_ms': 0, 'p99_ms': 0, 'max_ms': 0}
+    return {
+        'count':  len(samples),
+        'min_ms': round(min(samples), 2),
+        'avg_ms': round(sum(samples) / len(samples), 2),
+        'p50_ms': _percentile(samples, 50),
+        'p95_ms': _percentile(samples, 95),
+        'p99_ms': _percentile(samples, 99),
+        'max_ms': round(max(samples), 2),
+    }
 
 
 def _infer_class_from_data(data: dict, server_role: str) -> str:
@@ -63,6 +93,17 @@ def process_analytics_data(data):
     """
     receive_time = datetime.now()
     processing_start = time.time()
+
+    # End-to-end latency: time from when IoT device sent the packet to when
+    # this server received it.  Cloud = remote data centre → higher e2e latency.
+    e2e_ms = 0.0
+    payload_ts = data.get('timestamp')
+    if payload_ts:
+        try:
+            e2e_ms = max(0.0, (receive_time - datetime.fromisoformat(payload_ts))
+                         .total_seconds() * 1000)
+        except Exception:
+            pass
 
     # Read SDN routing metadata (injected by sdn_proxy in simulation mode).
     # In Mininet/Ryu mode, OpenFlow only rewrites headers — no payload injection.
@@ -104,6 +145,8 @@ def process_analytics_data(data):
     
     processing_time = (time.time() - processing_start) * 1000  # ms
     record['processing_time_ms'] = round(processing_time, 2)
+    record['e2e_latency_ms']     = round(e2e_ms, 2)
+    record['total_latency_ms']   = round(e2e_ms + processing_time, 2)
 
     # Update stats — protected by lock
     with _lock:
@@ -114,8 +157,10 @@ def process_analytics_data(data):
             (stats['avg_processing_time_ms'] * (stats['total_batches'] - 1) + processing_time) / stats['total_batches'],
             2
         )
+        _processing_samples.append(processing_time)
+        _e2e_samples.append(e2e_ms)
         analytics_data.append(record)
-    
+
     return record
 
 
@@ -195,6 +240,36 @@ def get_summary():
         })
 
     return jsonify({'message': 'No analytics computed yet'}), 404
+
+
+@app.route('/metrics', methods=['GET'])
+def get_metrics():
+    """
+    Latency evaluation metrics for Cloud server.
+    Demonstrates why Cloud is NOT suitable for emergency/critical IoT traffic.
+    """
+    with _lock:
+        proc  = list(_processing_samples)
+        e2e   = list(_e2e_samples)
+        total = [p + e for p, e in zip(proc, e2e)]
+        snapshot = dict(stats)
+
+    return jsonify({
+        'server':        'cloud',
+        'role':          'Remote cloud — ANALYTICS/BULK traffic',
+        'total_packets': snapshot['total_batches'],
+        'latency': {
+            'processing_ms':  _latency_stats(proc),
+            'e2e_ms':         _latency_stats(e2e),
+            'total_ms':       _latency_stats(total),
+        },
+        'justification': (
+            'Cloud server simulates a remote data centre (50–150ms WAN latency + '
+            'heavy ML/aggregation processing). ANALYTICS and BULK traffic is '
+            'routed here by the SDN controller because timeliness is not critical. '
+            'Routing emergency traffic here would delay response by 100× vs Fog.'
+        )
+    })
 
 
 def main():

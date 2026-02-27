@@ -128,6 +128,60 @@
             </div>
         </section>
 
+        <!-- Latency Evaluation Panel -->
+        <section class="full-card">
+            <div class="card eval-card">
+                <div class="card-header">
+                    <h2>Latency Evaluation — Fog vs Cloud</h2>
+                    <span class="badge badge-emergency">SDN Justification</span>
+                </div>
+                <div class="card-body">
+                    <div class="eval-verdict" id="eval-verdict">Waiting for traffic...</div>
+                    <table class="eval-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th class="fog-col">Fog (Edge)</th>
+                                <th class="cloud-col">Cloud (Remote)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Avg Total Latency</td>
+                                <td class="fog-col" id="eval-fog-avg">-</td>
+                                <td class="cloud-col" id="eval-cloud-avg">-</td>
+                            </tr>
+                            <tr>
+                                <td>P95 Latency</td>
+                                <td class="fog-col" id="eval-fog-p95">-</td>
+                                <td class="cloud-col" id="eval-cloud-p95">-</td>
+                            </tr>
+                            <tr>
+                                <td>P99 Latency</td>
+                                <td class="fog-col" id="eval-fog-p99">-</td>
+                                <td class="cloud-col" id="eval-cloud-p99">-</td>
+                            </tr>
+                            <tr>
+                                <td>Traffic handled</td>
+                                <td class="fog-col">EMERGENCY / CRITICAL</td>
+                                <td class="cloud-col">ANALYTICS / BULK</td>
+                            </tr>
+                            <tr>
+                                <td>Samples measured</td>
+                                <td class="fog-col" id="eval-fog-samples">0</td>
+                                <td class="cloud-col" id="eval-cloud-samples">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="eval-note">
+                        The SDN controller automatically routes emergency packets to Fog
+                        to guarantee low-latency response. Cloud handles non-urgent bulk
+                        analytics where latency is acceptable.
+                    </p>
+                </div>
+            </div>
+        </section>
+
         <!-- DPI Routing Log -->
         <section class="full-card">
             <div class="card">
