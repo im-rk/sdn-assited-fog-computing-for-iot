@@ -36,6 +36,7 @@ from mininet.cli import CLI
 from mininet.log import setLogLevel, info
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+VENV_PYTHON  = os.path.join(PROJECT_ROOT, 'venv', 'bin', 'python3')
 
 
 class FogIoTTopo(Topo):
@@ -76,11 +77,11 @@ class FogIoTTopo(Topo):
         self.addLink(collector, s1)
 
 
-def run():
+def run(no_cli=False):
     topo = FogIoTTopo()
     net  = Mininet(
         topo=topo,
-        controller=RemoteController,  # Ryu runs externally on port 6633
+        controller=lambda name: RemoteController(name, ip='127.0.0.1', port=6633),
         switch=OVSSwitch
     )
     net.start()
@@ -102,10 +103,10 @@ def run():
 
     # ── Start Fog and Cloud servers on their respective hosts ─────────────────
     info('[2/5] Starting Fog Server on fog (10.0.0.4:5001)...\n')
-    fog.cmd(f'python3 {PROJECT_ROOT}/servers/fog_server.py > /tmp/fog_server.log 2>&1 &')
+    fog.cmd(f'{VENV_PYTHON} {PROJECT_ROOT}/servers/fog_server.py > /tmp/fog_server.log 2>&1 &')
 
     info('[3/5] Starting Cloud Server on cloud (10.0.0.5:5002)...\n')
-    cloud.cmd(f'python3 {PROJECT_ROOT}/servers/cloud_server.py > /tmp/cloud_server.log 2>&1 &')
+    cloud.cmd(f'{VENV_PYTHON} {PROJECT_ROOT}/servers/cloud_server.py > /tmp/cloud_server.log 2>&1 &')
 
     info('       Waiting for servers to initialise...\n')
     time.sleep(2)
@@ -117,21 +118,21 @@ def run():
 
     info('       h1 → Fire Alarm Sensor      → 10.0.0.100:9000\n')
     h1.cmd(
-        f'python3 {PROJECT_ROOT}/iot_devices/fire_alarm.py '
+        f'{VENV_PYTHON} {PROJECT_ROOT}/iot_devices/fire_alarm.py '
         f'--host 10.0.0.100 --port 9000 '
         f'> /tmp/fire_alarm.log 2>&1 &'
     )
 
     info('       h2 → Temperature Sensor     → 10.0.0.100:9000\n')
     h2.cmd(
-        f'python3 {PROJECT_ROOT}/iot_devices/temperature_sensor.py '
+        f'{VENV_PYTHON} {PROJECT_ROOT}/iot_devices/temperature_sensor.py '
         f'--host 10.0.0.100 --port 9000 '
         f'> /tmp/temp_sensor.log 2>&1 &'
     )
 
     info('       h3 → Analytics Generator    → 10.0.0.100:9000\n')
     h3.cmd(
-        f'python3 {PROJECT_ROOT}/iot_devices/analytics_generator.py '
+        f'{VENV_PYTHON} {PROJECT_ROOT}/iot_devices/analytics_generator.py '
         f'--host 10.0.0.100 --port 9000 '
         f'> /tmp/analytics.log 2>&1 &'
     )
@@ -160,7 +161,15 @@ def run():
     info('  Type "exit" or Ctrl-D to stop the network.\n')
     info('=' * 65 + '\n\n')
 
-    CLI(net)
+    if no_cli:
+        info('Running in daemon mode (--no-cli). Press Ctrl+C to stop.\n')
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            pass
+    else:
+        CLI(net)
 
     # ── Cleanup ───────────────────────────────────────────────────────────────
     info('\nStopping all processes on hosts...\n')
@@ -172,5 +181,9 @@ def run():
 
 
 if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--no-cli', action='store_true', help='Run without interactive CLI (daemon mode)')
+    args = parser.parse_args()
     setLogLevel('info')
-    run()
+    run(no_cli=args.no_cli)

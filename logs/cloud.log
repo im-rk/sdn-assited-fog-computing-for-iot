@@ -1,0 +1,438 @@
+23:38:23 [INFO] CloudServer: ============================================================
+23:38:23 [INFO] CloudServer: CLOUD SERVER - Heavy Analytics Processing
+23:38:23 [INFO] CloudServer: UDP Port : 5002 (ANALYTICS / BULK traffic)
+23:38:23 [INFO] CloudServer: HTTP Port: 5102 (REST API)
+23:38:23 [INFO] CloudServer: ============================================================
+23:38:23 [INFO] CloudServer: Cloud Server UDP listening on 0.0.0.0:5002
+ * Serving Flask app 'cloud_server'
+ * Debug mode: off
+23:38:23 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5102
+ * Running on http://172.29.193.22:5102
+23:38:23 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+23:38:43 [INFO] CloudServer: [0001] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=67.18ms
+23:38:43 [INFO] CloudServer: [0002] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=125.82ms
+23:38:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:38:48] "GET /health HTTP/1.1" 200 -
+23:38:48 [INFO] CloudServer: [0003] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=108.85ms
+23:38:48 [INFO] CloudServer: [0004] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=117.16ms
+23:38:50 [INFO] CloudServer: [0005] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=78.03ms
+23:38:52 [INFO] CloudServer: [0006] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=136.89ms
+23:38:53 [INFO] CloudServer: [0007] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=55.90ms
+23:38:54 [INFO] CloudServer: [0008] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=62.33ms
+23:38:56 [INFO] CloudServer: [0009] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=66.02ms
+23:38:58 [INFO] CloudServer: [0010] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=103.56ms
+23:38:58 [INFO] CloudServer: [0011] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=103.37ms
+23:39:00 [INFO] CloudServer: [0012] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=102.11ms
+23:39:02 [INFO] CloudServer: [0013] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=78.86ms
+23:39:03 [INFO] CloudServer: [0014] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=70.37ms
+23:39:03 [INFO] CloudServer: [0015] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=130.51ms
+23:39:04 [INFO] CloudServer: [0016] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=127.36ms
+23:39:06 [INFO] CloudServer: [0017] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=68.95ms
+23:39:08 [INFO] CloudServer: [0018] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=70.93ms
+23:39:08 [INFO] CloudServer: [0019] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=137.26ms
+23:39:10 [INFO] CloudServer: [0020] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=112.90ms
+23:39:12 [INFO] CloudServer: [0021] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=82.67ms
+23:39:13 [INFO] CloudServer: [0022] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=50.95ms
+23:39:13 [INFO] CloudServer: [0023] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=139.10ms
+23:39:14 [INFO] CloudServer: [0024] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=104.48ms
+23:39:17 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:17] "GET /metrics HTTP/1.1" 200 -
+23:39:17 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:17] "GET /data HTTP/1.1" 200 -
+23:39:17 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:17] "GET /stats HTTP/1.1" 200 -
+23:39:18 [INFO] CloudServer: [0025] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=69.32ms
+23:39:18 [INFO] CloudServer: [0026] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=100.65ms
+23:39:20 [INFO] CloudServer: [0027] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=84.02ms
+23:39:22 [INFO] CloudServer: [0028] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=104.16ms
+23:39:23 [INFO] CloudServer: [0029] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=102.43ms
+23:39:23 [INFO] CloudServer: [0030] Class=BULK       Points= 50  Size=7.62KB  Rule=R007  Time=107.02ms
+23:39:24 [INFO] CloudServer: [0031] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=129.11ms
+23:39:26 [INFO] CloudServer: [0032] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=71.57ms
+23:39:28 [INFO] CloudServer: [0033] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=96.25ms
+23:39:30 [INFO] CloudServer: [0034] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=77.42ms
+23:39:32 [INFO] CloudServer: [0035] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=97.13ms
+23:39:33 [INFO] CloudServer: [0036] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=85.51ms
+23:39:33 [INFO] CloudServer: [0037] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=146.72ms
+23:39:34 [INFO] CloudServer: [0038] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=50.81ms
+23:39:36 [INFO] CloudServer: [0039] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=98.69ms
+23:39:38 [INFO] CloudServer: [0040] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=80.71ms
+23:39:38 [INFO] CloudServer: [0041] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=133.89ms
+23:39:40 [INFO] CloudServer: [0042] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=78.37ms
+23:39:43 [INFO] CloudServer: [0043] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=83.87ms
+23:39:43 [INFO] CloudServer: [0044] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=120.17ms
+23:39:46 [INFO] CloudServer: [0045] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=122.36ms
+23:39:48 [INFO] CloudServer: [0046] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=90.67ms
+23:39:48 [INFO] CloudServer: [0047] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=134.59ms
+23:39:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:48] "GET /data HTTP/1.1" 200 -
+23:39:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:48] "GET /stats HTTP/1.1" 200 -
+23:39:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:48] "GET /metrics HTTP/1.1" 200 -
+23:39:50 [INFO] CloudServer: [0048] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=95.33ms
+23:39:52 [INFO] CloudServer: [0049] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=128.12ms
+23:39:53 [INFO] CloudServer: [0050] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=102.08ms
+23:39:53 [INFO] CloudServer: [0051] Class=BULK       Points= 50  Size=7.60KB  Rule=R007  Time=147.94ms
+23:39:54 [INFO] CloudServer: [0052] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=103.74ms
+23:39:56 [INFO] CloudServer: [0053] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=142.64ms
+23:39:58 [INFO] CloudServer: [0054] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=80.64ms
+23:39:58 [INFO] CloudServer: [0055] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=108.63ms
+23:40:00 [INFO] CloudServer: [0056] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=130.78ms
+23:40:02 [INFO] CloudServer: [0057] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=85.47ms
+23:40:03 [INFO] CloudServer: [0058] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=61.44ms
+23:40:03 [INFO] CloudServer: [0059] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=112.68ms
+23:40:04 [INFO] CloudServer: [0060] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=83.75ms
+23:40:06 [INFO] CloudServer: [0061] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=110.90ms
+23:40:08 [INFO] CloudServer: [0062] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=91.46ms
+23:40:08 [INFO] CloudServer: [0063] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=137.18ms
+23:40:10 [INFO] CloudServer: [0064] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=109.88ms
+23:40:12 [INFO] CloudServer: [0065] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=118.95ms
+23:40:13 [INFO] CloudServer: [0066] Class=BULK       Points= 50  Size=7.63KB  Rule=R007  Time=82.12ms
+23:40:13 [INFO] CloudServer: [0067] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=146.97ms
+23:40:14 [INFO] CloudServer: [0068] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=95.88ms
+23:40:18 [INFO] CloudServer: [0069] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=97.76ms
+23:40:18 [INFO] CloudServer: [0070] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=146.05ms
+23:40:20 [INFO] CloudServer: [0071] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=66.44ms
+23:40:22 [INFO] CloudServer: [0072] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=83.72ms
+23:40:23 [INFO] CloudServer: [0073] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=112.48ms
+23:40:23 [INFO] CloudServer: [0074] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=122.44ms
+23:40:24 [INFO] CloudServer: [0075] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=147.30ms
+23:40:28 [INFO] CloudServer: [0076] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=56.44ms
+23:40:28 [INFO] CloudServer: [0077] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=137.62ms
+23:40:30 [INFO] CloudServer: [0078] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=139.12ms
+23:40:32 [INFO] CloudServer: [0079] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=136.49ms
+23:40:33 [INFO] CloudServer: [0080] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=107.19ms
+23:40:33 [INFO] CloudServer: [0081] Class=BULK       Points= 50  Size=7.62KB  Rule=R007  Time=139.64ms
+23:40:34 [INFO] CloudServer: [0082] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=142.64ms
+23:40:36 [INFO] CloudServer: [0083] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=56.76ms
+23:40:38 [INFO] CloudServer: [0084] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=57.35ms
+23:40:42 [INFO] CloudServer: [0085] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=68.06ms
+23:40:43 [INFO] CloudServer: [0086] Class=BULK       Points= 50  Size=7.60KB  Rule=R007  Time=86.71ms
+23:40:43 [INFO] CloudServer: [0087] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=104.56ms
+23:40:44 [INFO] CloudServer: [0088] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=149.98ms
+23:40:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:40:46] "GET /metrics HTTP/1.1" 200 -
+23:40:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:40:46] "GET /data HTTP/1.1" 200 -
+23:40:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:40:46] "GET /stats HTTP/1.1" 200 -
+23:40:46 [INFO] CloudServer: [0089] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=53.17ms
+23:40:48 [INFO] CloudServer: [0090] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=80.48ms
+23:40:48 [INFO] CloudServer: [0091] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=140.95ms
+23:40:50 [INFO] CloudServer: [0092] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=59.24ms
+23:40:52 [INFO] CloudServer: [0093] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=119.14ms
+23:40:53 [INFO] CloudServer: [0094] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=135.11ms
+23:40:53 [INFO] CloudServer: [0095] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=145.17ms
+23:40:54 [INFO] CloudServer: [0096] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=73.09ms
+23:40:56 [INFO] CloudServer: [0097] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=54.55ms
+23:40:58 [INFO] CloudServer: [0098] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=61.62ms
+23:40:58 [INFO] CloudServer: [0099] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=148.59ms
+23:41:00 [INFO] CloudServer: [0100] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=144.36ms
+23:41:02 [INFO] CloudServer: [0101] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=123.63ms
+23:41:03 [INFO] CloudServer: [0102] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=146.25ms
+23:41:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:41:04] "GET /metrics HTTP/1.1" 200 -
+23:41:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:41:04] "GET /stats HTTP/1.1" 200 -
+23:41:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:41:04] "GET /data HTTP/1.1" 200 -
+23:41:04 [INFO] CloudServer: [0103] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=137.65ms
+23:41:06 [INFO] CloudServer: [0104] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=98.41ms
+23:41:08 [INFO] CloudServer: [0105] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=61.21ms
+23:41:08 [INFO] CloudServer: [0106] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=128.76ms
+23:41:10 [INFO] CloudServer: [0107] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=140.58ms
+23:41:13 [INFO] CloudServer: [0108] Class=BULK       Points= 50  Size=7.62KB  Rule=R007  Time=64.48ms
+23:41:13 [INFO] CloudServer: [0109] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=89.29ms
+23:41:14 [INFO] CloudServer: [0110] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=64.00ms
+23:41:16 [INFO] CloudServer: [0111] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=104.84ms
+23:41:18 [INFO] CloudServer: [0112] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=85.91ms
+23:41:18 [INFO] CloudServer: [0113] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=103.00ms
+23:41:20 [INFO] CloudServer: [0114] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=77.58ms
+23:41:22 [INFO] CloudServer: [0115] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=131.06ms
+23:41:23 [INFO] CloudServer: [0116] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=100.02ms
+23:41:23 [INFO] CloudServer: [0117] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=117.53ms
+23:41:24 [INFO] CloudServer: [0118] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=105.75ms
+23:41:26 [INFO] CloudServer: [0119] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=115.39ms
+23:41:28 [INFO] CloudServer: [0120] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=105.53ms
+23:41:30 [INFO] CloudServer: [0121] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=92.52ms
+23:41:32 [INFO] CloudServer: [0122] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=135.33ms
+23:41:33 [INFO] CloudServer: [0123] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=98.61ms
+23:41:33 [INFO] CloudServer: [0124] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=147.05ms
+23:41:36 [INFO] CloudServer: [0125] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=130.37ms
+23:41:38 [INFO] CloudServer: [0126] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=100.02ms
+23:41:40 [INFO] CloudServer: [0127] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=93.33ms
+23:41:42 [INFO] CloudServer: [0128] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=57.88ms
+23:41:43 [INFO] CloudServer: [0129] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=121.57ms
+23:41:44 [INFO] CloudServer: [0130] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=143.60ms
+23:41:48 [INFO] CloudServer: [0131] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=60.83ms
+23:41:48 [INFO] CloudServer: [0132] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=144.38ms
+23:41:50 [INFO] CloudServer: [0133] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=101.27ms
+23:41:52 [INFO] CloudServer: [0134] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=142.92ms
+23:41:53 [INFO] CloudServer: [0135] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=53.88ms
+23:41:53 [INFO] CloudServer: [0136] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=100.75ms
+23:41:54 [INFO] CloudServer: [0137] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=116.30ms
+23:41:56 [INFO] CloudServer: [0138] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=80.79ms
+23:41:58 [INFO] CloudServer: [0139] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=105.63ms
+23:42:00 [INFO] CloudServer: [0140] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=111.54ms
+23:42:02 [INFO] CloudServer: [0141] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=60.69ms
+23:42:03 [INFO] CloudServer: [0142] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=76.31ms
+23:42:03 [INFO] CloudServer: [0143] Class=BULK       Points= 50  Size=7.62KB  Rule=R007  Time=120.26ms
+23:42:04 [INFO] CloudServer: [0144] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=145.71ms
+23:42:06 [INFO] CloudServer: [0145] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=83.23ms
+23:42:08 [INFO] CloudServer: [0146] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=84.02ms
+23:42:08 [INFO] CloudServer: [0147] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=142.92ms
+23:42:10 [INFO] CloudServer: [0148] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=76.66ms
+23:42:12 [INFO] CloudServer: [0149] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=123.45ms
+23:42:13 [INFO] CloudServer: [0150] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=67.75ms
+23:42:13 [INFO] CloudServer: [0151] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=96.57ms
+23:42:14 [INFO] CloudServer: [0152] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=124.77ms
+23:42:16 [INFO] CloudServer: [0153] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=90.65ms
+23:42:18 [INFO] CloudServer: [0154] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=89.58ms
+23:42:20 [INFO] CloudServer: [0155] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=78.22ms
+23:42:22 [INFO] CloudServer: [0156] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=119.78ms
+23:42:23 [INFO] CloudServer: [0157] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=70.96ms
+23:42:24 [INFO] CloudServer: [0158] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=116.24ms
+23:42:26 [INFO] CloudServer: [0159] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=61.81ms
+23:42:28 [INFO] CloudServer: [0160] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=136.30ms
+23:42:28 [INFO] CloudServer: [0161] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=111.03ms
+23:42:30 [INFO] CloudServer: [0162] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=134.85ms
+23:42:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:31] "GET /data HTTP/1.1" 200 -
+23:42:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:31] "GET /metrics HTTP/1.1" 200 -
+23:42:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:31] "GET /stats HTTP/1.1" 200 -
+23:42:32 [INFO] CloudServer: [0163] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=64.62ms
+23:42:33 [INFO] CloudServer: [0164] Class=BULK       Points= 50  Size=7.62KB  Rule=R007  Time=86.88ms
+23:42:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:34] "GET /metrics HTTP/1.1" 200 -
+23:42:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:34] "GET /data HTTP/1.1" 200 -
+23:42:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:34] "GET /stats HTTP/1.1" 200 -
+23:42:34 [INFO] CloudServer: [0165] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=93.30ms
+23:42:36 [INFO] CloudServer: [0166] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=128.14ms
+23:42:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:37] "GET /data HTTP/1.1" 200 -
+23:42:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:37] "GET /stats HTTP/1.1" 200 -
+23:42:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:37] "GET /metrics HTTP/1.1" 200 -
+23:42:38 [INFO] CloudServer: [0167] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=72.59ms
+23:42:38 [INFO] CloudServer: [0168] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=117.76ms
+23:42:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:40] "GET /metrics HTTP/1.1" 200 -
+23:42:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:40] "GET /data HTTP/1.1" 200 -
+23:42:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:40] "GET /stats HTTP/1.1" 200 -
+23:42:40 [INFO] CloudServer: [0169] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=74.41ms
+23:42:41 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:41] "GET /metrics HTTP/1.1" 200 -
+23:42:41 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:41] "GET /data HTTP/1.1" 200 -
+23:42:41 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:41] "GET /stats HTTP/1.1" 200 -
+23:42:42 [INFO] CloudServer: [0170] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=107.17ms
+23:42:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:43] "GET /metrics HTTP/1.1" 200 -
+23:42:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:43] "GET /data HTTP/1.1" 200 -
+23:42:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:43] "GET /stats HTTP/1.1" 200 -
+23:42:43 [INFO] CloudServer: [0171] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=71.98ms
+23:42:43 [INFO] CloudServer: [0172] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=126.35ms
+23:42:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:46] "GET /data HTTP/1.1" 200 -
+23:42:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:46] "GET /metrics HTTP/1.1" 200 -
+23:42:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:46] "GET /stats HTTP/1.1" 200 -
+23:42:46 [INFO] CloudServer: [0173] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=63.40ms
+23:42:48 [INFO] CloudServer: [0174] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=88.68ms
+23:42:48 [INFO] CloudServer: [0175] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=100.75ms
+23:42:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:49] "GET /data HTTP/1.1" 200 -
+23:42:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:49] "GET /stats HTTP/1.1" 200 -
+23:42:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:49] "GET /metrics HTTP/1.1" 200 -
+23:42:50 [INFO] CloudServer: [0176] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=143.74ms
+23:42:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:52] "GET /metrics HTTP/1.1" 200 -
+23:42:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:52] "GET /data HTTP/1.1" 200 -
+23:42:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:52] "GET /stats HTTP/1.1" 200 -
+23:42:53 [INFO] CloudServer: [0177] Class=BULK       Points= 50  Size=7.60KB  Rule=R007  Time=100.53ms
+23:42:53 [INFO] CloudServer: [0178] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=127.69ms
+23:42:54 [INFO] CloudServer: [0179] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=58.31ms
+23:42:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:55] "GET /data HTTP/1.1" 200 -
+23:42:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:55] "GET /metrics HTTP/1.1" 200 -
+23:42:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:55] "GET /stats HTTP/1.1" 200 -
+23:42:56 [INFO] CloudServer: [0180] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=56.46ms
+23:42:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:58] "GET /metrics HTTP/1.1" 200 -
+23:42:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:58] "GET /data HTTP/1.1" 200 -
+23:42:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:58] "GET /stats HTTP/1.1" 200 -
+23:42:58 [INFO] CloudServer: [0181] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=130.89ms
+23:42:58 [INFO] CloudServer: [0182] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=124.06ms
+23:43:00 [INFO] CloudServer: [0183] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=70.85ms
+23:43:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:01] "GET /metrics HTTP/1.1" 200 -
+23:43:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:01] "GET /data HTTP/1.1" 200 -
+23:43:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:01] "GET /stats HTTP/1.1" 200 -
+23:43:02 [INFO] CloudServer: [0184] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=131.59ms
+23:43:03 [INFO] CloudServer: [0185] Class=BULK       Points= 50  Size=7.63KB  Rule=R007  Time=82.40ms
+23:43:03 [INFO] CloudServer: [0186] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=98.43ms
+23:43:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:04] "GET /data HTTP/1.1" 200 -
+23:43:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:04] "GET /metrics HTTP/1.1" 200 -
+23:43:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:04] "GET /stats HTTP/1.1" 200 -
+23:43:06 [INFO] CloudServer: [0187] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=146.51ms
+23:43:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:07] "GET /data HTTP/1.1" 200 -
+23:43:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:07] "GET /metrics HTTP/1.1" 200 -
+23:43:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:07] "GET /stats HTTP/1.1" 200 -
+23:43:08 [INFO] CloudServer: [0188] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=115.98ms
+23:43:08 [INFO] CloudServer: [0189] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=81.58ms
+23:43:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:10] "GET /data HTTP/1.1" 200 -
+23:43:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:10] "GET /metrics HTTP/1.1" 200 -
+23:43:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:10] "GET /stats HTTP/1.1" 200 -
+23:43:10 [INFO] CloudServer: [0190] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=64.44ms
+23:43:12 [INFO] CloudServer: [0191] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=86.21ms
+23:43:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:13] "GET /data HTTP/1.1" 200 -
+23:43:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:13] "GET /metrics HTTP/1.1" 200 -
+23:43:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:13] "GET /stats HTTP/1.1" 200 -
+23:43:13 [INFO] CloudServer: [0192] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=65.52ms
+23:43:13 [INFO] CloudServer: [0193] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=75.00ms
+23:43:14 [INFO] CloudServer: [0194] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=146.03ms
+23:43:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:16] "GET /metrics HTTP/1.1" 200 -
+23:43:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:16] "GET /data HTTP/1.1" 200 -
+23:43:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:16] "GET /stats HTTP/1.1" 200 -
+23:43:16 [INFO] CloudServer: [0195] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=131.02ms
+23:43:18 [INFO] CloudServer: [0196] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=138.17ms
+23:43:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:19] "GET /metrics HTTP/1.1" 200 -
+23:43:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:19] "GET /data HTTP/1.1" 200 -
+23:43:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:19] "GET /stats HTTP/1.1" 200 -
+23:43:20 [INFO] CloudServer: [0197] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=135.61ms
+23:43:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:22] "GET /metrics HTTP/1.1" 200 -
+23:43:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:22] "GET /data HTTP/1.1" 200 -
+23:43:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:22] "GET /stats HTTP/1.1" 200 -
+23:43:22 [INFO] CloudServer: [0198] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=144.24ms
+23:43:23 [INFO] CloudServer: [0199] Class=BULK       Points= 50  Size=7.60KB  Rule=R007  Time=60.37ms
+23:43:23 [INFO] CloudServer: [0200] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=133.51ms
+23:43:24 [INFO] CloudServer: [0201] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=52.95ms
+23:43:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:25] "GET /metrics HTTP/1.1" 200 -
+23:43:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:25] "GET /data HTTP/1.1" 200 -
+23:43:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:25] "GET /stats HTTP/1.1" 200 -
+23:43:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:28] "GET /metrics HTTP/1.1" 200 -
+23:43:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:28] "GET /data HTTP/1.1" 200 -
+23:43:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:28] "GET /stats HTTP/1.1" 200 -
+23:43:28 [INFO] CloudServer: [0202] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=146.11ms
+23:43:30 [INFO] CloudServer: [0203] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=100.11ms
+23:43:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:31] "GET /data HTTP/1.1" 200 -
+23:43:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:31] "GET /stats HTTP/1.1" 200 -
+23:43:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:31] "GET /metrics HTTP/1.1" 200 -
+23:43:32 [INFO] CloudServer: [0204] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=91.90ms
+23:43:33 [INFO] CloudServer: [0205] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=69.12ms
+23:43:33 [INFO] CloudServer: [0206] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=80.93ms
+23:43:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:34] "GET /data HTTP/1.1" 200 -
+23:43:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:34] "GET /metrics HTTP/1.1" 200 -
+23:43:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:34] "GET /stats HTTP/1.1" 200 -
+23:43:34 [INFO] CloudServer: [0207] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=125.97ms
+23:43:36 [INFO] CloudServer: [0208] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=84.51ms
+23:43:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:37] "GET /metrics HTTP/1.1" 200 -
+23:43:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:37] "GET /stats HTTP/1.1" 200 -
+23:43:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:37] "GET /data HTTP/1.1" 200 -
+23:43:38 [INFO] CloudServer: [0209] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=65.70ms
+23:43:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:40] "GET /data HTTP/1.1" 200 -
+23:43:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:40] "GET /metrics HTTP/1.1" 200 -
+23:43:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:40] "GET /stats HTTP/1.1" 200 -
+23:43:40 [INFO] CloudServer: [0210] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=114.86ms
+23:43:42 [INFO] CloudServer: [0211] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=75.99ms
+23:43:43 [INFO] CloudServer: [0212] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=60.52ms
+23:43:43 [INFO] CloudServer: [0213] Class=BULK       Points= 50  Size=7.60KB  Rule=R007  Time=128.42ms
+23:43:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:43] "GET /metrics HTTP/1.1" 200 -
+23:43:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:43] "GET /data HTTP/1.1" 200 -
+23:43:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:43] "GET /stats HTTP/1.1" 200 -
+23:43:44 [INFO] CloudServer: [0214] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=76.76ms
+23:43:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:46] "GET /metrics HTTP/1.1" 200 -
+23:43:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:46] "GET /data HTTP/1.1" 200 -
+23:43:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:46] "GET /stats HTTP/1.1" 200 -
+23:43:46 [INFO] CloudServer: [0215] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=125.32ms
+23:43:48 [INFO] CloudServer: [0216] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=143.61ms
+23:43:48 [INFO] CloudServer: [0217] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=148.91ms
+23:43:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:49] "GET /metrics HTTP/1.1" 200 -
+23:43:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:49] "GET /data HTTP/1.1" 200 -
+23:43:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:49] "GET /stats HTTP/1.1" 200 -
+23:43:50 [INFO] CloudServer: [0218] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=69.08ms
+23:43:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:52] "GET /metrics HTTP/1.1" 200 -
+23:43:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:52] "GET /stats HTTP/1.1" 200 -
+23:43:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:52] "GET /data HTTP/1.1" 200 -
+23:43:52 [INFO] CloudServer: [0219] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=133.21ms
+23:43:53 [INFO] CloudServer: [0220] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=58.82ms
+23:43:53 [INFO] CloudServer: [0221] Class=BULK       Points= 50  Size=7.60KB  Rule=R007  Time=91.65ms
+23:43:54 [INFO] CloudServer: [0222] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=112.27ms
+23:43:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:55] "GET /data HTTP/1.1" 200 -
+23:43:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:55] "GET /metrics HTTP/1.1" 200 -
+23:43:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:55] "GET /stats HTTP/1.1" 200 -
+23:43:56 [INFO] CloudServer: [0223] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=112.91ms
+23:43:58 [INFO] CloudServer: [0224] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=105.31ms
+23:43:58 [INFO] CloudServer: [0225] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=63.04ms
+23:43:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:58] "GET /metrics HTTP/1.1" 200 -
+23:43:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:58] "GET /data HTTP/1.1" 200 -
+23:43:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:58] "GET /stats HTTP/1.1" 200 -
+23:44:00 [INFO] CloudServer: [0226] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=136.67ms
+23:44:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:01] "GET /metrics HTTP/1.1" 200 -
+23:44:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:01] "GET /data HTTP/1.1" 200 -
+23:44:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:01] "GET /stats HTTP/1.1" 200 -
+23:44:03 [INFO] CloudServer: [0227] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=89.50ms
+23:44:03 [INFO] CloudServer: [0228] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=142.81ms
+23:44:04 [INFO] CloudServer: [0229] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=68.44ms
+23:44:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:04] "GET /data HTTP/1.1" 200 -
+23:44:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:04] "GET /stats HTTP/1.1" 200 -
+23:44:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:04] "GET /metrics HTTP/1.1" 200 -
+23:44:06 [INFO] CloudServer: [0230] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=102.36ms
+23:44:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:07] "GET /metrics HTTP/1.1" 200 -
+23:44:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:07] "GET /data HTTP/1.1" 200 -
+23:44:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:07] "GET /stats HTTP/1.1" 200 -
+23:44:08 [INFO] CloudServer: [0231] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=76.83ms
+23:44:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:10] "GET /metrics HTTP/1.1" 200 -
+23:44:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:10] "GET /data HTTP/1.1" 200 -
+23:44:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:10] "GET /stats HTTP/1.1" 200 -
+23:44:10 [INFO] CloudServer: [0232] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=144.20ms
+23:44:12 [INFO] CloudServer: [0233] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=102.68ms
+23:44:13 [INFO] CloudServer: [0234] Class=BULK       Points= 50  Size=7.62KB  Rule=R007  Time=87.59ms
+23:44:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:13] "GET /data HTTP/1.1" 200 -
+23:44:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:13] "GET /metrics HTTP/1.1" 200 -
+23:44:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:13] "GET /stats HTTP/1.1" 200 -
+23:44:14 [INFO] CloudServer: [0235] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=124.43ms
+23:44:16 [INFO] CloudServer: [0236] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=91.11ms
+23:44:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:16] "GET /data HTTP/1.1" 200 -
+23:44:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:16] "GET /stats HTTP/1.1" 200 -
+23:44:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:16] "GET /metrics HTTP/1.1" 200 -
+23:44:18 [INFO] CloudServer: [0237] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=95.04ms
+23:44:18 [INFO] CloudServer: [0238] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=104.98ms
+23:44:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:19] "GET /data HTTP/1.1" 200 -
+23:44:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:19] "GET /metrics HTTP/1.1" 200 -
+23:44:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:19] "GET /stats HTTP/1.1" 200 -
+23:44:20 [INFO] CloudServer: [0239] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=129.21ms
+23:44:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:22] "GET /data HTTP/1.1" 200 -
+23:44:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:22] "GET /stats HTTP/1.1" 200 -
+23:44:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:22] "GET /metrics HTTP/1.1" 200 -
+23:44:22 [INFO] CloudServer: [0240] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=141.30ms
+23:44:23 [INFO] CloudServer: [0241] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=125.51ms
+23:44:24 [INFO] CloudServer: [0242] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=79.08ms
+23:44:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:25] "GET /data HTTP/1.1" 200 -
+23:44:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:25] "GET /metrics HTTP/1.1" 200 -
+23:44:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:25] "GET /stats HTTP/1.1" 200 -
+23:44:26 [INFO] CloudServer: [0243] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=68.52ms
+23:44:28 [INFO] CloudServer: [0244] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=76.03ms
+23:44:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:28] "GET /data HTTP/1.1" 200 -
+23:44:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:28] "GET /metrics HTTP/1.1" 200 -
+23:44:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:28] "GET /stats HTTP/1.1" 200 -
+23:44:28 [INFO] CloudServer: [0245] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=124.71ms
+23:44:30 [INFO] CloudServer: [0246] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=78.18ms
+23:44:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:31] "GET /data HTTP/1.1" 200 -
+23:44:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:31] "GET /stats HTTP/1.1" 200 -
+23:44:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:31] "GET /metrics HTTP/1.1" 200 -
+23:44:32 [INFO] CloudServer: [0247] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=52.53ms
+23:44:33 [INFO] CloudServer: [0248] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=64.04ms
+23:44:33 [INFO] CloudServer: [0249] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=104.05ms
+23:44:34 [INFO] CloudServer: [0250] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=87.02ms
+23:44:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:34] "GET /data HTTP/1.1" 200 -
+23:44:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:34] "GET /metrics HTTP/1.1" 200 -
+23:44:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:34] "GET /stats HTTP/1.1" 200 -
+23:44:36 [INFO] CloudServer: [0251] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=86.14ms
+23:44:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:37] "GET /metrics HTTP/1.1" 200 -
+23:44:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:37] "GET /stats HTTP/1.1" 200 -
+23:44:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:37] "GET /data HTTP/1.1" 200 -
+23:44:38 [INFO] CloudServer: [0252] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=85.72ms
+23:44:38 [INFO] CloudServer: [0253] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=86.03ms
+23:44:40 [INFO] CloudServer: [0254] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=104.72ms
+23:44:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:40] "GET /data HTTP/1.1" 200 -
+23:44:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:40] "GET /metrics HTTP/1.1" 200 -
+23:44:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:40] "GET /stats HTTP/1.1" 200 -
+23:44:42 [INFO] CloudServer: [0255] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=87.30ms
+23:44:43 [INFO] CloudServer: [0256] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=57.30ms
+23:44:43 [INFO] CloudServer: [0257] Class=BULK       Points= 50  Size=7.61KB  Rule=R007  Time=60.05ms
+23:44:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:43] "GET /data HTTP/1.1" 200 -
+23:44:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:43] "GET /metrics HTTP/1.1" 200 -
+23:44:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:43] "GET /stats HTTP/1.1" 200 -
+23:44:44 [INFO] CloudServer: [0258] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=90.22ms
+23:44:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:46] "GET /data HTTP/1.1" 200 -
+23:44:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:46] "GET /metrics HTTP/1.1" 200 -
+23:44:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:46] "GET /stats HTTP/1.1" 200 -
+23:44:46 [INFO] CloudServer: [0259] Class=ANALYTICS  Points=  0  Size=0.35KB  Rule=R008  Time=123.95ms
+23:44:48 [INFO] CloudServer: [0260] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=106.82ms
+23:44:48 [INFO] CloudServer: [0261] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=143.96ms
+23:44:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:49] "GET /metrics HTTP/1.1" 200 -
+23:44:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:49] "GET /data HTTP/1.1" 200 -
+23:44:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:49] "GET /stats HTTP/1.1" 200 -
+23:44:50 [INFO] CloudServer: [0262] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=127.30ms
+23:44:52 [INFO] CloudServer: [0263] Class=ANALYTICS  Points=  0  Size=0.36KB  Rule=R008  Time=96.65ms
+23:44:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:52] "GET /data HTTP/1.1" 200 -
+23:44:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:52] "GET /stats HTTP/1.1" 200 -
+23:44:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:52] "GET /metrics HTTP/1.1" 200 -
+23:44:53 [INFO] CloudServer: [0264] Class=ANALYTICS  Points=  0  Size=0.41KB  Rule=R008  Time=81.42ms
+23:44:53 [INFO] CloudServer: [0265] Class=BULK       Points= 50  Size=7.62KB  Rule=R007  Time=125.55ms

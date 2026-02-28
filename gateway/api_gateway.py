@@ -14,15 +14,19 @@ Runs on: http://0.0.0.0:8000
 
 import asyncio
 import aiohttp
+import os
 from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 # -- Service URLs -------------------------------------------------------------
-FOG_URL   = "http://localhost:5101"
-CLOUD_URL = "http://localhost:5102"
-PROXY_URL = "http://localhost:9001"
+# Override with env vars for Mininet mode:
+#   FOG_URL=http://10.0.0.4:5101 CLOUD_URL=http://10.0.0.5:5102 python3 gateway/api_gateway.py
+FOG_URL   = os.environ.get("FOG_URL",   "http://localhost:5101")
+CLOUD_URL = os.environ.get("CLOUD_URL", "http://localhost:5102")
+PROXY_URL = os.environ.get("PROXY_URL", "http://localhost:9001")
+RYU_STATS_URL = os.environ.get("RYU_STATS_URL", "http://127.0.0.1:9002")
 
 GATEWAY_HOST = "0.0.0.0"
 GATEWAY_PORT = 8000
@@ -196,17 +200,24 @@ async def metrics_comparison():
 async def dashboard():
     """Aggregated snapshot for the dashboard - one call gets everything."""
     async with aiohttp.ClientSession() as s:
-        fog_stats_r, fog_alerts_r, cloud_stats_r, cloud_data_r, proxy_r, routing_r, fog_m, cloud_m = \
+        fog_stats_r, fog_alerts_r, cloud_stats_r, cloud_data_r, ryu_r, ryu_log_r, fog_m, cloud_m = \
             await asyncio.gather(
                 fetch(s, f"{FOG_URL}/stats"),
                 fetch(s, f"{FOG_URL}/alerts"),
                 fetch(s, f"{CLOUD_URL}/stats"),
                 fetch(s, f"{CLOUD_URL}/data"),
-                fetch(s, f"{PROXY_URL}/stats"),
-                fetch(s, f"{PROXY_URL}/routing-log"),
+                fetch(s, f"{RYU_STATS_URL}/stats"),   # Ryu routing stats
+                fetch(s, f"{RYU_STATS_URL}/routing-log"),  # Ryu routing log
                 fetch(s, f"{FOG_URL}/metrics"),
                 fetch(s, f"{CLOUD_URL}/metrics"),
             )
+
+        # Fallback to proxy if Ryu unavailable (Mode 1)
+        if ryu_r.get("error"):
+            proxy_r = await fetch(s, f"{PROXY_URL}/stats")
+            ryu_log_r = await fetch(s, f"{PROXY_URL}/routing-log")
+        else:
+            proxy_r = ryu_r
 
     fog_s   = fog_stats_r.get("stats",   {}) if isinstance(fog_stats_r,   dict) else {}
     cloud_s = cloud_stats_r.get("stats", {}) if isinstance(cloud_stats_r, dict) else {}
@@ -214,7 +225,7 @@ async def dashboard():
 
     alerts  = fog_alerts_r.get("alerts",   []) if isinstance(fog_alerts_r,  dict) else []
     records = cloud_data_r.get("records",  []) if isinstance(cloud_data_r,  dict) else []
-    routing = routing_r.get("events",      []) if isinstance(routing_r,     dict) else []
+    routing = ryu_log_r.get("events",      []) if isinstance(ryu_log_r,     dict) else []
 
     # Read proxy stats from nested dicts (by_node / by_class)
     by_node  = proxy_s.get("by_node",  {})
@@ -278,7 +289,7 @@ async def dashboard():
         },
         "recent_alerts":    alerts[-5:],
         "recent_analytics": records[-5:],
-        "recent_routing":   routing[-10:],   # Last 10 DPI routing decisions
+        "recent_routing":   routing[-10:] if routing else [],
         "timestamp":        datetime.now().isoformat()
     }
 

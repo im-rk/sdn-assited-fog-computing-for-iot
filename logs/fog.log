@@ -1,0 +1,204 @@
+23:38:23 [INFO] FogServer: ============================================================
+23:38:23 [INFO] FogServer: FOG SERVER - Edge Computing Node
+23:38:23 [INFO] FogServer: UDP Port : 5001 (CRITICAL / EMERGENCY traffic)
+23:38:23 [INFO] FogServer: HTTP Port: 5101 (REST API)
+23:38:23 [INFO] FogServer: ============================================================
+23:38:23 [INFO] FogServer: Fog Server UDP listening on 0.0.0.0:5001
+ * Serving Flask app 'fog_server'
+ * Debug mode: off
+23:38:23 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5101
+ * Running on http://172.29.193.22:5101
+23:38:23 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+23:38:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:38:48] "GET /health HTTP/1.1" 200 -
+23:38:53 [INFO] FogServer: [0001] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.04ms
+23:39:16 [INFO] FogServer: [0002] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.04ms
+23:39:17 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:17] "GET /alerts HTTP/1.1" 200 -
+23:39:17 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:17] "GET /metrics HTTP/1.1" 200 -
+23:39:17 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:17] "GET /stats HTTP/1.1" 200 -
+23:39:28 [INFO] FogServer: [0003] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.04ms
+23:39:42 [INFO] FogServer: [0004] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.07ms
+23:39:44 [INFO] FogServer: [0005] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.04ms
+23:39:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:48] "GET /alerts HTTP/1.1" 200 -
+23:39:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:48] "GET /metrics HTTP/1.1" 200 -
+23:39:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:48] "GET /stats HTTP/1.1" 200 -
+23:40:16 [INFO] FogServer: [0006] Class=EMERGENCY  Severity=EMERGENCY Action=EMERGENCY_SERVICES_NOTIFIED Rule=R001 Time=0.06ms
+23:40:26 [INFO] FogServer: [0007] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.15ms
+23:40:38 [INFO] FogServer: [0008] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.03ms
+23:40:40 [INFO] FogServer: [0009] Class=EMERGENCY  Severity=EMERGENCY Action=EMERGENCY_SERVICES_NOTIFIED Rule=R001 Time=0.05ms
+23:40:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:40:46] "GET /metrics HTTP/1.1" 200 -
+23:40:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:40:46] "GET /alerts HTTP/1.1" 200 -
+23:40:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:40:46] "GET /stats HTTP/1.1" 200 -
+23:41:03 [INFO] FogServer: [0010] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.05ms
+23:41:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:41:04] "GET /metrics HTTP/1.1" 200 -
+23:41:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:41:04] "GET /stats HTTP/1.1" 200 -
+23:41:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:41:04] "GET /alerts HTTP/1.1" 200 -
+23:41:12 [INFO] FogServer: [0011] Class=EMERGENCY  Severity=EMERGENCY Action=EMERGENCY_SERVICES_NOTIFIED Rule=R001 Time=0.05ms
+23:41:28 [INFO] FogServer: [0012] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.05ms
+23:41:34 [INFO] FogServer: [0013] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.05ms
+23:41:38 [INFO] FogServer: [0014] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.04ms
+23:41:43 [INFO] FogServer: [0015] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.05ms
+23:41:46 [INFO] FogServer: [0016] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.03ms
+23:41:58 [INFO] FogServer: [0017] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.04ms
+23:42:18 [INFO] FogServer: [0018] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.05ms
+23:42:23 [INFO] FogServer: [0019] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.05ms
+23:42:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:31] "GET /alerts HTTP/1.1" 200 -
+23:42:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:31] "GET /stats HTTP/1.1" 200 -
+23:42:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:31] "GET /metrics HTTP/1.1" 200 -
+23:42:33 [INFO] FogServer: [0020] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.05ms
+23:42:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:34] "GET /metrics HTTP/1.1" 200 -
+23:42:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:34] "GET /stats HTTP/1.1" 200 -
+23:42:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:34] "GET /alerts HTTP/1.1" 200 -
+23:42:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:37] "GET /metrics HTTP/1.1" 200 -
+23:42:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:37] "GET /stats HTTP/1.1" 200 -
+23:42:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:37] "GET /alerts HTTP/1.1" 200 -
+23:42:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:40] "GET /metrics HTTP/1.1" 200 -
+23:42:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:40] "GET /alerts HTTP/1.1" 200 -
+23:42:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:40] "GET /stats HTTP/1.1" 200 -
+23:42:41 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:41] "GET /alerts HTTP/1.1" 200 -
+23:42:41 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:41] "GET /metrics HTTP/1.1" 200 -
+23:42:41 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:41] "GET /stats HTTP/1.1" 200 -
+23:42:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:43] "GET /metrics HTTP/1.1" 200 -
+23:42:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:43] "GET /stats HTTP/1.1" 200 -
+23:42:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:43] "GET /alerts HTTP/1.1" 200 -
+23:42:44 [INFO] FogServer: [0021] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.04ms
+23:42:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:46] "GET /alerts HTTP/1.1" 200 -
+23:42:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:46] "GET /stats HTTP/1.1" 200 -
+23:42:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:46] "GET /metrics HTTP/1.1" 200 -
+23:42:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:49] "GET /metrics HTTP/1.1" 200 -
+23:42:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:49] "GET /alerts HTTP/1.1" 200 -
+23:42:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:49] "GET /stats HTTP/1.1" 200 -
+23:42:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:52] "GET /alerts HTTP/1.1" 200 -
+23:42:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:52] "GET /stats HTTP/1.1" 200 -
+23:42:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:52] "GET /metrics HTTP/1.1" 200 -
+23:42:52 [INFO] FogServer: [0022] Class=EMERGENCY  Severity=EMERGENCY Action=EMERGENCY_SERVICES_NOTIFIED Rule=R001 Time=0.04ms
+23:42:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:55] "GET /metrics HTTP/1.1" 200 -
+23:42:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:55] "GET /stats HTTP/1.1" 200 -
+23:42:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:55] "GET /alerts HTTP/1.1" 200 -
+23:42:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:58] "GET /metrics HTTP/1.1" 200 -
+23:42:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:58] "GET /alerts HTTP/1.1" 200 -
+23:42:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:58] "GET /stats HTTP/1.1" 200 -
+23:43:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:01] "GET /alerts HTTP/1.1" 200 -
+23:43:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:01] "GET /metrics HTTP/1.1" 200 -
+23:43:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:01] "GET /stats HTTP/1.1" 200 -
+23:43:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:04] "GET /alerts HTTP/1.1" 200 -
+23:43:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:04] "GET /metrics HTTP/1.1" 200 -
+23:43:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:04] "GET /stats HTTP/1.1" 200 -
+23:43:04 [INFO] FogServer: [0023] Class=EMERGENCY  Severity=EMERGENCY Action=EMERGENCY_SERVICES_NOTIFIED Rule=R001 Time=0.03ms
+23:43:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:07] "GET /metrics HTTP/1.1" 200 -
+23:43:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:07] "GET /stats HTTP/1.1" 200 -
+23:43:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:07] "GET /alerts HTTP/1.1" 200 -
+23:43:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:10] "GET /alerts HTTP/1.1" 200 -
+23:43:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:10] "GET /metrics HTTP/1.1" 200 -
+23:43:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:10] "GET /stats HTTP/1.1" 200 -
+23:43:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:13] "GET /metrics HTTP/1.1" 200 -
+23:43:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:13] "GET /alerts HTTP/1.1" 200 -
+23:43:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:13] "GET /stats HTTP/1.1" 200 -
+23:43:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:16] "GET /metrics HTTP/1.1" 200 -
+23:43:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:16] "GET /alerts HTTP/1.1" 200 -
+23:43:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:16] "GET /stats HTTP/1.1" 200 -
+23:43:18 [INFO] FogServer: [0024] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.03ms
+23:43:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:19] "GET /alerts HTTP/1.1" 200 -
+23:43:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:19] "GET /metrics HTTP/1.1" 200 -
+23:43:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:19] "GET /stats HTTP/1.1" 200 -
+23:43:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:22] "GET /alerts HTTP/1.1" 200 -
+23:43:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:22] "GET /metrics HTTP/1.1" 200 -
+23:43:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:22] "GET /stats HTTP/1.1" 200 -
+23:43:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:25] "GET /metrics HTTP/1.1" 200 -
+23:43:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:25] "GET /alerts HTTP/1.1" 200 -
+23:43:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:25] "GET /stats HTTP/1.1" 200 -
+23:43:26 [INFO] FogServer: [0025] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.16ms
+23:43:28 [INFO] FogServer: [0026] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.04ms
+23:43:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:28] "GET /metrics HTTP/1.1" 200 -
+23:43:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:28] "GET /alerts HTTP/1.1" 200 -
+23:43:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:28] "GET /stats HTTP/1.1" 200 -
+23:43:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:31] "GET /alerts HTTP/1.1" 200 -
+23:43:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:31] "GET /stats HTTP/1.1" 200 -
+23:43:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:31] "GET /metrics HTTP/1.1" 200 -
+23:43:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:34] "GET /alerts HTTP/1.1" 200 -
+23:43:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:34] "GET /metrics HTTP/1.1" 200 -
+23:43:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:34] "GET /stats HTTP/1.1" 200 -
+23:43:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:37] "GET /alerts HTTP/1.1" 200 -
+23:43:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:37] "GET /metrics HTTP/1.1" 200 -
+23:43:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:37] "GET /stats HTTP/1.1" 200 -
+23:43:38 [INFO] FogServer: [0027] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.02ms
+23:43:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:40] "GET /alerts HTTP/1.1" 200 -
+23:43:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:40] "GET /stats HTTP/1.1" 200 -
+23:43:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:40] "GET /metrics HTTP/1.1" 200 -
+23:43:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:43] "GET /metrics HTTP/1.1" 200 -
+23:43:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:43] "GET /stats HTTP/1.1" 200 -
+23:43:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:43] "GET /alerts HTTP/1.1" 200 -
+23:43:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:46] "GET /alerts HTTP/1.1" 200 -
+23:43:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:46] "GET /stats HTTP/1.1" 200 -
+23:43:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:46] "GET /metrics HTTP/1.1" 200 -
+23:43:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:49] "GET /alerts HTTP/1.1" 200 -
+23:43:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:49] "GET /stats HTTP/1.1" 200 -
+23:43:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:49] "GET /metrics HTTP/1.1" 200 -
+23:43:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:52] "GET /metrics HTTP/1.1" 200 -
+23:43:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:52] "GET /alerts HTTP/1.1" 200 -
+23:43:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:52] "GET /stats HTTP/1.1" 200 -
+23:43:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:55] "GET /metrics HTTP/1.1" 200 -
+23:43:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:55] "GET /alerts HTTP/1.1" 200 -
+23:43:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:55] "GET /stats HTTP/1.1" 200 -
+23:43:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:58] "GET /metrics HTTP/1.1" 200 -
+23:43:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:58] "GET /alerts HTTP/1.1" 200 -
+23:43:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:58] "GET /stats HTTP/1.1" 200 -
+23:44:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:01] "GET /metrics HTTP/1.1" 200 -
+23:44:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:01] "GET /stats HTTP/1.1" 200 -
+23:44:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:01] "GET /alerts HTTP/1.1" 200 -
+23:44:02 [INFO] FogServer: [0028] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R002 Time=0.07ms
+23:44:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:04] "GET /alerts HTTP/1.1" 200 -
+23:44:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:04] "GET /metrics HTTP/1.1" 200 -
+23:44:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:04] "GET /stats HTTP/1.1" 200 -
+23:44:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:07] "GET /alerts HTTP/1.1" 200 -
+23:44:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:07] "GET /stats HTTP/1.1" 200 -
+23:44:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:07] "GET /metrics HTTP/1.1" 200 -
+23:44:08 [INFO] FogServer: [0029] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.05ms
+23:44:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:10] "GET /alerts HTTP/1.1" 200 -
+23:44:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:10] "GET /metrics HTTP/1.1" 200 -
+23:44:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:10] "GET /stats HTTP/1.1" 200 -
+23:44:13 [INFO] FogServer: [0030] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.06ms
+23:44:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:13] "GET /metrics HTTP/1.1" 200 -
+23:44:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:13] "GET /stats HTTP/1.1" 200 -
+23:44:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:13] "GET /alerts HTTP/1.1" 200 -
+23:44:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:16] "GET /metrics HTTP/1.1" 200 -
+23:44:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:16] "GET /stats HTTP/1.1" 200 -
+23:44:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:16] "GET /alerts HTTP/1.1" 200 -
+23:44:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:19] "GET /alerts HTTP/1.1" 200 -
+23:44:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:19] "GET /metrics HTTP/1.1" 200 -
+23:44:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:19] "GET /stats HTTP/1.1" 200 -
+23:44:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:22] "GET /alerts HTTP/1.1" 200 -
+23:44:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:22] "GET /stats HTTP/1.1" 200 -
+23:44:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:22] "GET /metrics HTTP/1.1" 200 -
+23:44:23 [INFO] FogServer: [0031] Class=CRITICAL   Severity=HIGH      Action=SECURITY_NOTIFIED Rule=R006 Time=0.05ms
+23:44:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:25] "GET /metrics HTTP/1.1" 200 -
+23:44:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:25] "GET /alerts HTTP/1.1" 200 -
+23:44:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:25] "GET /stats HTTP/1.1" 200 -
+23:44:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:28] "GET /metrics HTTP/1.1" 200 -
+23:44:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:28] "GET /alerts HTTP/1.1" 200 -
+23:44:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:28] "GET /stats HTTP/1.1" 200 -
+23:44:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:31] "GET /metrics HTTP/1.1" 200 -
+23:44:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:31] "GET /stats HTTP/1.1" 200 -
+23:44:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:31] "GET /alerts HTTP/1.1" 200 -
+23:44:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:34] "GET /alerts HTTP/1.1" 200 -
+23:44:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:34] "GET /metrics HTTP/1.1" 200 -
+23:44:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:34] "GET /stats HTTP/1.1" 200 -
+23:44:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:37] "GET /metrics HTTP/1.1" 200 -
+23:44:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:37] "GET /alerts HTTP/1.1" 200 -
+23:44:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:37] "GET /stats HTTP/1.1" 200 -
+23:44:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:40] "GET /alerts HTTP/1.1" 200 -
+23:44:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:40] "GET /metrics HTTP/1.1" 200 -
+23:44:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:40] "GET /stats HTTP/1.1" 200 -
+23:44:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:43] "GET /alerts HTTP/1.1" 200 -
+23:44:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:43] "GET /stats HTTP/1.1" 200 -
+23:44:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:43] "GET /metrics HTTP/1.1" 200 -
+23:44:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:46] "GET /alerts HTTP/1.1" 200 -
+23:44:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:46] "GET /metrics HTTP/1.1" 200 -
+23:44:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:46] "GET /stats HTTP/1.1" 200 -
+23:44:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:49] "GET /alerts HTTP/1.1" 200 -
+23:44:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:49] "GET /metrics HTTP/1.1" 200 -
+23:44:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:49] "GET /stats HTTP/1.1" 200 -
+23:44:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:52] "GET /metrics HTTP/1.1" 200 -
+23:44:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:52] "GET /stats HTTP/1.1" 200 -
+23:44:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:52] "GET /alerts HTTP/1.1" 200 -

@@ -24,6 +24,10 @@ Run with:  ryu-manager controller/sdn_controller.py
 import os
 import sys
 import logging
+import threading
+import json
+from datetime import datetime
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 from ryu.base import app_manager
 from ryu.controller import ofp_event
@@ -39,6 +43,62 @@ from policy_engine import PolicyEngine
 _MININET_POLICY = os.path.join(
     os.path.dirname(__file__), '..', 'config', 'routing_policy_mininet.json'
 )
+
+# ── Global stats + routing log for HTTP endpoint ───────────────────────────────
+import collections
+_stats_lock = threading.Lock()
+_routing_stats = {
+    'total_packets': 0,
+    'by_node': {'fog': 0, 'cloud': 0},
+    'by_class': {'EMERGENCY': 0, 'CRITICAL': 0, 'ANALYTICS': 0, 'BULK': 0},
+}
+_routing_log = collections.deque(maxlen=50)  # Last 50 routing decisions
+
+# ── Simple HTTP request handler for stats endpoint ──────────────────────────────
+class StatsHTTPHandler(BaseHTTPRequestHandler):
+    """Simple HTTP handler for /stats and /health endpoints."""
+    
+    def do_GET(self):
+        """Handle GET requests."""
+        if self.path == '/stats':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            with _stats_lock:
+                response = {
+                    'stats': _routing_stats.copy(),
+                    'timestamp': datetime.now().isoformat()
+                }
+            self.wfile.write(json.dumps(response).encode())
+        elif self.path == '/routing-log':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            with _stats_lock:
+                response = {
+                    'events': list(_routing_log),
+                    'timestamp': datetime.now().isoformat()
+                }
+            self.wfile.write(json.dumps(response).encode())
+        elif self.path == '/health':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            response = {'service': 'ryu-sdn-controller', 'status': 'healthy'}
+            self.wfile.write(json.dumps(response).encode())
+        else:
+            self.send_response(404)
+            self.end_headers()
+    
+    def log_message(self, format, *args):
+        """Suppress HTTP server logs."""
+        pass
+
+def _run_http_server():
+    """Run the HTTP stats server in a separate thread."""
+    server = HTTPServer(('127.0.0.1', 9002), StatsHTTPHandler)
+    server.serve_forever()
+
 
 
 class PolicySDNController(app_manager.RyuApp):
@@ -64,11 +124,16 @@ class PolicySDNController(app_manager.RyuApp):
         self.engine = PolicyEngine(policy_path=_MININET_POLICY)
         self.COLLECTOR_IP, self.COLLECTOR_PORT = self.engine.get_collection_endpoint()
 
+        # Start HTTP stats server in daemon thread
+        http_thread = threading.Thread(target=_run_http_server, daemon=True)
+        http_thread.start()
+
         self.logger.info("=" * 60)
         self.logger.info("Ryu SDN Controller started (Policy-Driven DPI)")
         self.logger.info(f"Intercept address : {self.COLLECTOR_IP}:{self.COLLECTOR_PORT}")
         self.logger.info(f"Policy rules      : {len(self.engine.rules)}")
         self.logger.info(f"Routing nodes     : {list(self.engine.nodes.keys())}")
+        self.logger.info(f"Stats endpoint    : http://127.0.0.1:9002/stats")
         self.logger.info("=" * 60)
 
     # ── Switch handshake ─────────────────────────────────────────────────────
@@ -84,7 +149,17 @@ class PolicySDNController(app_manager.RyuApp):
         actions = [parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
                                           ofproto.OFPCML_NO_BUFFER)]
         self._add_flow(datapath, priority=0, match=match, actions=actions)
-        self.logger.info(f"Switch {datapath.id:#x} connected — table-miss installed")
+
+        # HIGH-PRIORITY intercept: UDP dst port 9000 → ALWAYS send to controller
+        # This overrides any ARP-learned forwarding rules (those are priority=1)
+        # so IoT packets destined to the collector IP always reach Ryu for DPI.
+        intercept_match = parser.OFPMatch(
+            eth_type=0x0800,        # IPv4
+            ip_proto=17,            # UDP
+            udp_dst=self.COLLECTOR_PORT  # 9000
+        )
+        self._add_flow(datapath, priority=100, match=intercept_match, actions=actions)
+        self.logger.info(f"Switch {datapath.id:#x} connected — table-miss + UDP:9000 intercept installed")
 
     # ── PacketIn handler (called for every unmatched packet) ─────────────────
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
@@ -172,10 +247,34 @@ class PolicySDNController(app_manager.RyuApp):
         node     = result["node"]
         dst_ip   = node["host"]    # e.g. 10.0.0.4 (fog) or 10.0.0.5 (cloud)
         dst_port = node["port"]    # e.g. 5001 or 5002
+        traffic_class = result["traffic_class"]
+        node_name = result["node_name"]
+
+        # ── Update global stats + routing log ────────────────────────────────
+        global _routing_stats, _routing_log
+        with _stats_lock:
+            _routing_stats['total_packets'] += 1
+            if node_name in _routing_stats['by_node']:
+                _routing_stats['by_node'][node_name] += 1
+            if traffic_class in _routing_stats['by_class']:
+                _routing_stats['by_class'][traffic_class] += 1
+            # Append routing event for the dashboard feed
+            _routing_log.append({
+                'timestamp':     datetime.now().isoformat(),
+                'traffic_class': traffic_class,
+                'destination':   node_name.upper(),
+                'source_ip':     ip_pkt.src,
+                'sensor_id':     node_name,
+                'confidence':    1.0,
+                'reason':        result.get('reason', ''),
+                'rule_id':       result.get('rule_id', ''),
+                'dst_ip':        dst_ip,
+                'dst_port':      dst_port,
+            })
 
         self.logger.info(
-            f"[DPI] Rule={result['rule_id']} | Class={result['traffic_class']} "
-            f"| → {result['node_name'].upper()} ({dst_ip}:{dst_port})"
+            f"[DPI] Rule={result['rule_id']} | Class={traffic_class} "
+            f"| → {node_name.upper()} ({dst_ip}:{dst_port})"
         )
         self.logger.info(f"[DPI] Reason: {result['reason']}")
 

@@ -1,0 +1,64 @@
+*** Creating network
+*** Adding controller
+*** Adding hosts:
+cloud collector fog h1 h2 h3 
+*** Adding switches:
+s1 
+*** Adding links:
+(cloud, s1) (collector, s1) (fog, s1) (h1, s1) (h2, s1) (h3, s1) 
+*** Configuring hosts
+cloud collector fog h1 h2 h3 
+*** Starting controller
+c0 
+*** Starting 1 switches
+s1 ...
+
+=================================================================
+  SDN-Assisted Fog Computing for IoT — Mininet
+=================================================================
+
+[1/5] Testing connectivity (ping all)...
+*** Ping: testing ping reachability
+cloud -> collector fog h1 h2 h3 
+collector -> cloud fog h1 h2 h3 
+fog -> cloud collector h1 h2 h3 
+h1 -> cloud collector fog h2 h3 
+h2 -> cloud collector fog h1 h3 
+h3 -> cloud collector fog h1 h2 
+*** Results: 0% dropped (30/30 received)
+       Packet loss: 0.0%
+
+[2/5] Starting Fog Server on fog (10.0.0.4:5001)...
+[3/5] Starting Cloud Server on cloud (10.0.0.5:5002)...
+       Waiting for servers to initialise...
+[4/5] Starting IoT device simulators...
+       h1 → Fire Alarm Sensor      → 10.0.0.100:9000
+       h2 → Temperature Sensor     → 10.0.0.100:9000
+       h3 → Analytics Generator    → 10.0.0.100:9000
+
+[5/5] All hosts active. IoT data is flowing.
+       Ryu controller is inspecting packets and making routing decisions.
+
+=================================================================
+  HOSTS
+  h1   10.0.0.1    Fire Alarm Sensor
+  h2   10.0.0.2    Temperature Sensor
+  h3   10.0.0.3    Analytics Generator
+  fog  10.0.0.4    Fog/Edge Server     (UDP:5001  HTTP:5101)
+  cld  10.0.0.5    Cloud Server        (UDP:5002  HTTP:5102)
+  coll 10.0.0.100  Virtual SDN intercept address
+
+  LOGS (tail these to see live traffic)
+  Fog server   : tail -f /tmp/fog_server.log
+  Cloud server : tail -f /tmp/cloud_server.log
+  Fire alarm   : tail -f /tmp/fire_alarm.log
+  Temp sensor  : tail -f /tmp/temp_sensor.log
+
+  DASHBOARD
+  Start gateway: python3 gateway/api_gateway.py
+  Then open:     dashboard/index.html
+
+  Type "exit" or Ctrl-D to stop the network.
+=================================================================
+
+Running in daemon mode (--no-cli). Press Ctrl+C to stop.

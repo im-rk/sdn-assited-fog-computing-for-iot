@@ -1,0 +1,436 @@
+23:38:23 [INFO] PolicyEngine: Policy loaded: 'fog_computing_iot' | 8 rules | 2 nodes
+23:38:23 [INFO] PolicyEngine:   Node 'fog' → 127.0.0.1:5001
+23:38:23 [INFO] PolicyEngine:   Node 'cloud' → 127.0.0.1:5002
+23:38:23 [INFO] SDNProxy: Listening on 0.0.0.0:9000 (from policy file)
+======================================================================
+SDN PROXY -- Policy-Driven IoT Traffic Controller
+======================================================================
+Policy file : config/routing_policy.json
+Listening   : 0.0.0.0:9000  (all IoT devices send here)
+Monitor API : http://localhost:9001
+
+Loaded 8 rules, 2 nodes:
+   [100] R001 | smoke_level >= 80 -> FOG
+   [ 90] R002 | smoke_level >= 50 -> FOG
+   [ 85] R003 | status in ['ALARM', 'EMERGENCY', 'DANGER'] -> FOG
+   [ 80] R004 | data_type == temperature AND value >= 45.0 -> FOG
+   [ 80] R005 | data_type == temperature AND value <= 0.0 -> FOG
+   [ 75] R006 | air_quality_index >= 150 -> FOG
+   [ 50] R007 | num_points >= 20 -> CLOUD
+   [  0] R008 | (default) -> CLOUD
+
+  Destination nodes:
+    fog        -> 127.0.0.1:5001  (Fog Edge Server)
+    cloud      -> 127.0.0.1:5002  (Cloud Analytics Server)
+======================================================================
+
+ * Serving Flask app 'sdn_proxy'
+ * Debug mode: off
+23:38:23 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:9001
+ * Running on http://172.29.193.22:9001
+23:38:23 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+23:38:43 [INFO] SDNProxy: [0001] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:38:43 [INFO] SDNProxy: [0002] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:38:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:38:48] "GET /health HTTP/1.1" 200 -
+23:38:48 [INFO] SDNProxy: [0003] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:38:48 [INFO] SDNProxy: [0004] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:38:50 [INFO] SDNProxy: [0005] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:38:52 [INFO] SDNProxy: [0006] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:38:53 [INFO] SDNProxy: [0007] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:38:53 [INFO] SDNProxy: [0008] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=176 >= 150
+23:38:54 [INFO] SDNProxy: [0009] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:38:56 [INFO] SDNProxy: [0010] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:38:58 [INFO] SDNProxy: [0011] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:38:58 [INFO] SDNProxy: [0012] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:00 [INFO] SDNProxy: [0013] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:02 [INFO] SDNProxy: [0014] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:03 [INFO] SDNProxy: [0015] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:39:03 [INFO] SDNProxy: [0016] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:04 [INFO] SDNProxy: [0017] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:06 [INFO] SDNProxy: [0018] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:08 [INFO] SDNProxy: [0019] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:08 [INFO] SDNProxy: [0020] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:10 [INFO] SDNProxy: [0021] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:12 [INFO] SDNProxy: [0022] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:13 [INFO] SDNProxy: [0023] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:13 [INFO] SDNProxy: [0024] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:39:14 [INFO] SDNProxy: [0025] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:16 [INFO] SDNProxy: [0026] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=68 >= 50
+23:39:17 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:17] "GET /routing-log HTTP/1.1" 200 -
+23:39:17 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:17] "GET /stats HTTP/1.1" 200 -
+23:39:18 [INFO] SDNProxy: [0027] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:18 [INFO] SDNProxy: [0028] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:20 [INFO] SDNProxy: [0029] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:22 [INFO] SDNProxy: [0030] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:23 [INFO] SDNProxy: [0031] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:23 [INFO] SDNProxy: [0032] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:39:24 [INFO] SDNProxy: [0033] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:26 [INFO] SDNProxy: [0034] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:28 [INFO] SDNProxy: [0035] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=178 >= 150
+23:39:28 [INFO] SDNProxy: [0036] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:30 [INFO] SDNProxy: [0037] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:32 [INFO] SDNProxy: [0038] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:33 [INFO] SDNProxy: [0039] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:33 [INFO] SDNProxy: [0040] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:39:34 [INFO] SDNProxy: [0041] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:36 [INFO] SDNProxy: [0042] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:38 [INFO] SDNProxy: [0043] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:38 [INFO] SDNProxy: [0044] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:40 [INFO] SDNProxy: [0045] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:42 [INFO] SDNProxy: [0046] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=67 >= 50
+23:39:43 [INFO] SDNProxy: [0047] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:43 [INFO] SDNProxy: [0048] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:39:44 [INFO] SDNProxy: [0049] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=61 >= 50
+23:39:46 [INFO] SDNProxy: [0050] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:48 [INFO] SDNProxy: [0051] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:48 [INFO] SDNProxy: [0052] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:48] "GET /routing-log HTTP/1.1" 200 -
+23:39:48 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:39:48] "GET /stats HTTP/1.1" 200 -
+23:39:50 [INFO] SDNProxy: [0053] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:52 [INFO] SDNProxy: [0054] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:53 [INFO] SDNProxy: [0055] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:53 [INFO] SDNProxy: [0056] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:39:54 [INFO] SDNProxy: [0057] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:56 [INFO] SDNProxy: [0058] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:58 [INFO] SDNProxy: [0059] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:39:58 [INFO] SDNProxy: [0060] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:00 [INFO] SDNProxy: [0061] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:02 [INFO] SDNProxy: [0062] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:03 [INFO] SDNProxy: [0063] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:03 [INFO] SDNProxy: [0064] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:40:04 [INFO] SDNProxy: [0065] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:06 [INFO] SDNProxy: [0066] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:08 [INFO] SDNProxy: [0067] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:08 [INFO] SDNProxy: [0068] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:10 [INFO] SDNProxy: [0069] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:12 [INFO] SDNProxy: [0070] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:13 [INFO] SDNProxy: [0071] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:13 [INFO] SDNProxy: [0072] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:40:14 [INFO] SDNProxy: [0073] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:16 [INFO] SDNProxy: [0074] [R001] EMERGENCY  -> Fog Edge Server | Rule R001 [Emergency smoke level]: smoke_level=95 >= 80
+23:40:18 [INFO] SDNProxy: [0075] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:18 [INFO] SDNProxy: [0076] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:20 [INFO] SDNProxy: [0077] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:22 [INFO] SDNProxy: [0078] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:23 [INFO] SDNProxy: [0079] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:23 [INFO] SDNProxy: [0080] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:40:24 [INFO] SDNProxy: [0081] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:26 [INFO] SDNProxy: [0082] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=61 >= 50
+23:40:28 [INFO] SDNProxy: [0083] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:28 [INFO] SDNProxy: [0084] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:30 [INFO] SDNProxy: [0085] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:32 [INFO] SDNProxy: [0086] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:33 [INFO] SDNProxy: [0087] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:33 [INFO] SDNProxy: [0088] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:40:34 [INFO] SDNProxy: [0089] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:36 [INFO] SDNProxy: [0090] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:38 [INFO] SDNProxy: [0091] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:38 [INFO] SDNProxy: [0092] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=61 >= 50
+23:40:40 [INFO] SDNProxy: [0093] [R001] EMERGENCY  -> Fog Edge Server | Rule R001 [Emergency smoke level]: smoke_level=81 >= 80
+23:40:42 [INFO] SDNProxy: [0094] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:43 [INFO] SDNProxy: [0095] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:43 [INFO] SDNProxy: [0096] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:40:44 [INFO] SDNProxy: [0097] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:40:46] "GET /routing-log HTTP/1.1" 200 -
+23:40:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:40:46] "GET /stats HTTP/1.1" 200 -
+23:40:46 [INFO] SDNProxy: [0098] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:48 [INFO] SDNProxy: [0099] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:48 [INFO] SDNProxy: [0100] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:50 [INFO] SDNProxy: [0101] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:52 [INFO] SDNProxy: [0102] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:53 [INFO] SDNProxy: [0103] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:53 [INFO] SDNProxy: [0104] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:40:54 [INFO] SDNProxy: [0105] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:56 [INFO] SDNProxy: [0106] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:58 [INFO] SDNProxy: [0107] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:40:58 [INFO] SDNProxy: [0108] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:00 [INFO] SDNProxy: [0109] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:02 [INFO] SDNProxy: [0110] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:03 [INFO] SDNProxy: [0111] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=160 >= 150
+23:41:03 [INFO] SDNProxy: [0112] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:41:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:41:04] "GET /routing-log HTTP/1.1" 200 -
+23:41:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:41:04] "GET /stats HTTP/1.1" 200 -
+23:41:04 [INFO] SDNProxy: [0113] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:06 [INFO] SDNProxy: [0114] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:08 [INFO] SDNProxy: [0115] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:08 [INFO] SDNProxy: [0116] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:10 [INFO] SDNProxy: [0117] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:12 [INFO] SDNProxy: [0118] [R001] EMERGENCY  -> Fog Edge Server | Rule R001 [Emergency smoke level]: smoke_level=100 >= 80
+23:41:13 [INFO] SDNProxy: [0119] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:13 [INFO] SDNProxy: [0120] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:41:14 [INFO] SDNProxy: [0121] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:16 [INFO] SDNProxy: [0122] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:18 [INFO] SDNProxy: [0123] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:18 [INFO] SDNProxy: [0124] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:20 [INFO] SDNProxy: [0125] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:22 [INFO] SDNProxy: [0126] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:23 [INFO] SDNProxy: [0127] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:23 [INFO] SDNProxy: [0128] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:41:24 [INFO] SDNProxy: [0129] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:26 [INFO] SDNProxy: [0130] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:28 [INFO] SDNProxy: [0131] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=150 >= 150
+23:41:28 [INFO] SDNProxy: [0132] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:30 [INFO] SDNProxy: [0133] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:32 [INFO] SDNProxy: [0134] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:33 [INFO] SDNProxy: [0135] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:33 [INFO] SDNProxy: [0136] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:41:34 [INFO] SDNProxy: [0137] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=62 >= 50
+23:41:36 [INFO] SDNProxy: [0138] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:38 [INFO] SDNProxy: [0139] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=156 >= 150
+23:41:38 [INFO] SDNProxy: [0140] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:40 [INFO] SDNProxy: [0141] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:42 [INFO] SDNProxy: [0142] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:43 [INFO] SDNProxy: [0143] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=168 >= 150
+23:41:43 [INFO] SDNProxy: [0144] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:41:44 [INFO] SDNProxy: [0145] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:46 [INFO] SDNProxy: [0146] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=78 >= 50
+23:41:48 [INFO] SDNProxy: [0147] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:48 [INFO] SDNProxy: [0148] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:50 [INFO] SDNProxy: [0149] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:52 [INFO] SDNProxy: [0150] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:53 [INFO] SDNProxy: [0151] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:53 [INFO] SDNProxy: [0152] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:41:54 [INFO] SDNProxy: [0153] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:56 [INFO] SDNProxy: [0154] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:41:58 [INFO] SDNProxy: [0155] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=177 >= 150
+23:41:58 [INFO] SDNProxy: [0156] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:00 [INFO] SDNProxy: [0157] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:02 [INFO] SDNProxy: [0158] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:03 [INFO] SDNProxy: [0159] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:03 [INFO] SDNProxy: [0160] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:42:04 [INFO] SDNProxy: [0161] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:06 [INFO] SDNProxy: [0162] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:08 [INFO] SDNProxy: [0163] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:08 [INFO] SDNProxy: [0164] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:10 [INFO] SDNProxy: [0165] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:12 [INFO] SDNProxy: [0166] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:13 [INFO] SDNProxy: [0167] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:13 [INFO] SDNProxy: [0168] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:42:14 [INFO] SDNProxy: [0169] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:16 [INFO] SDNProxy: [0170] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:18 [INFO] SDNProxy: [0171] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=173 >= 150
+23:42:18 [INFO] SDNProxy: [0172] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:20 [INFO] SDNProxy: [0173] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:22 [INFO] SDNProxy: [0174] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:23 [INFO] SDNProxy: [0175] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=180 >= 150
+23:42:23 [INFO] SDNProxy: [0176] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:42:24 [INFO] SDNProxy: [0177] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:26 [INFO] SDNProxy: [0178] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:28 [INFO] SDNProxy: [0179] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:28 [INFO] SDNProxy: [0180] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:30 [INFO] SDNProxy: [0181] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:31] "GET /routing-log HTTP/1.1" 200 -
+23:42:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:31] "GET /stats HTTP/1.1" 200 -
+23:42:32 [INFO] SDNProxy: [0182] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:33 [INFO] SDNProxy: [0183] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=173 >= 150
+23:42:33 [INFO] SDNProxy: [0184] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:42:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:34] "GET /routing-log HTTP/1.1" 200 -
+23:42:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:34] "GET /stats HTTP/1.1" 200 -
+23:42:34 [INFO] SDNProxy: [0185] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:36 [INFO] SDNProxy: [0186] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:37] "GET /routing-log HTTP/1.1" 200 -
+23:42:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:37] "GET /stats HTTP/1.1" 200 -
+23:42:38 [INFO] SDNProxy: [0187] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:38 [INFO] SDNProxy: [0188] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:40] "GET /routing-log HTTP/1.1" 200 -
+23:42:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:40] "GET /stats HTTP/1.1" 200 -
+23:42:40 [INFO] SDNProxy: [0189] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:41 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:41] "GET /routing-log HTTP/1.1" 200 -
+23:42:41 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:41] "GET /stats HTTP/1.1" 200 -
+23:42:42 [INFO] SDNProxy: [0190] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:43] "GET /routing-log HTTP/1.1" 200 -
+23:42:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:43] "GET /stats HTTP/1.1" 200 -
+23:42:43 [INFO] SDNProxy: [0191] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:43 [INFO] SDNProxy: [0192] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:42:44 [INFO] SDNProxy: [0193] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=70 >= 50
+23:42:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:46] "GET /routing-log HTTP/1.1" 200 -
+23:42:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:46] "GET /stats HTTP/1.1" 200 -
+23:42:46 [INFO] SDNProxy: [0194] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:48 [INFO] SDNProxy: [0195] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:48 [INFO] SDNProxy: [0196] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:49] "GET /routing-log HTTP/1.1" 200 -
+23:42:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:49] "GET /stats HTTP/1.1" 200 -
+23:42:50 [INFO] SDNProxy: [0197] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:52] "GET /routing-log HTTP/1.1" 200 -
+23:42:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:52] "GET /stats HTTP/1.1" 200 -
+23:42:52 [INFO] SDNProxy: [0198] [R001] EMERGENCY  -> Fog Edge Server | Rule R001 [Emergency smoke level]: smoke_level=88 >= 80
+23:42:53 [INFO] SDNProxy: [0199] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:53 [INFO] SDNProxy: [0200] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:42:54 [INFO] SDNProxy: [0201] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:55] "GET /routing-log HTTP/1.1" 200 -
+23:42:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:55] "GET /stats HTTP/1.1" 200 -
+23:42:56 [INFO] SDNProxy: [0202] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:58] "GET /routing-log HTTP/1.1" 200 -
+23:42:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:42:58] "GET /stats HTTP/1.1" 200 -
+23:42:58 [INFO] SDNProxy: [0203] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:42:58 [INFO] SDNProxy: [0204] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:00 [INFO] SDNProxy: [0205] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:01] "GET /routing-log HTTP/1.1" 200 -
+23:43:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:01] "GET /stats HTTP/1.1" 200 -
+23:43:02 [INFO] SDNProxy: [0206] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:03 [INFO] SDNProxy: [0207] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:03 [INFO] SDNProxy: [0208] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:43:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:04] "GET /routing-log HTTP/1.1" 200 -
+23:43:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:04] "GET /stats HTTP/1.1" 200 -
+23:43:04 [INFO] SDNProxy: [0209] [R001] EMERGENCY  -> Fog Edge Server | Rule R001 [Emergency smoke level]: smoke_level=94 >= 80
+23:43:06 [INFO] SDNProxy: [0210] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:07] "GET /routing-log HTTP/1.1" 200 -
+23:43:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:07] "GET /stats HTTP/1.1" 200 -
+23:43:08 [INFO] SDNProxy: [0211] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:08 [INFO] SDNProxy: [0212] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:10] "GET /routing-log HTTP/1.1" 200 -
+23:43:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:10] "GET /stats HTTP/1.1" 200 -
+23:43:10 [INFO] SDNProxy: [0213] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:12 [INFO] SDNProxy: [0214] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:13] "GET /routing-log HTTP/1.1" 200 -
+23:43:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:13] "GET /stats HTTP/1.1" 200 -
+23:43:13 [INFO] SDNProxy: [0215] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:13 [INFO] SDNProxy: [0216] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:43:14 [INFO] SDNProxy: [0217] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:16] "GET /routing-log HTTP/1.1" 200 -
+23:43:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:16] "GET /stats HTTP/1.1" 200 -
+23:43:16 [INFO] SDNProxy: [0218] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:18 [INFO] SDNProxy: [0219] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:18 [INFO] SDNProxy: [0220] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=56 >= 50
+23:43:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:19] "GET /routing-log HTTP/1.1" 200 -
+23:43:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:19] "GET /stats HTTP/1.1" 200 -
+23:43:20 [INFO] SDNProxy: [0221] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:22] "GET /routing-log HTTP/1.1" 200 -
+23:43:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:22] "GET /stats HTTP/1.1" 200 -
+23:43:22 [INFO] SDNProxy: [0222] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:23 [INFO] SDNProxy: [0223] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:23 [INFO] SDNProxy: [0224] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:43:24 [INFO] SDNProxy: [0225] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:25] "GET /routing-log HTTP/1.1" 200 -
+23:43:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:25] "GET /stats HTTP/1.1" 200 -
+23:43:26 [INFO] SDNProxy: [0226] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=70 >= 50
+23:43:28 [INFO] SDNProxy: [0227] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:28 [INFO] SDNProxy: [0228] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=79 >= 50
+23:43:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:28] "GET /routing-log HTTP/1.1" 200 -
+23:43:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:28] "GET /stats HTTP/1.1" 200 -
+23:43:30 [INFO] SDNProxy: [0229] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:31] "GET /routing-log HTTP/1.1" 200 -
+23:43:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:31] "GET /stats HTTP/1.1" 200 -
+23:43:32 [INFO] SDNProxy: [0230] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:33 [INFO] SDNProxy: [0231] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:33 [INFO] SDNProxy: [0232] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:43:34 [INFO] SDNProxy: [0233] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:34] "GET /stats HTTP/1.1" 200 -
+23:43:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:34] "GET /routing-log HTTP/1.1" 200 -
+23:43:36 [INFO] SDNProxy: [0234] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:37] "GET /routing-log HTTP/1.1" 200 -
+23:43:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:37] "GET /stats HTTP/1.1" 200 -
+23:43:38 [INFO] SDNProxy: [0235] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=161 >= 150
+23:43:38 [INFO] SDNProxy: [0236] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:40 [INFO] SDNProxy: [0237] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:40] "GET /routing-log HTTP/1.1" 200 -
+23:43:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:40] "GET /stats HTTP/1.1" 200 -
+23:43:42 [INFO] SDNProxy: [0238] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:43 [INFO] SDNProxy: [0239] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:43 [INFO] SDNProxy: [0240] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:43:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:43] "GET /routing-log HTTP/1.1" 200 -
+23:43:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:43] "GET /stats HTTP/1.1" 200 -
+23:43:44 [INFO] SDNProxy: [0241] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:46 [INFO] SDNProxy: [0242] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:46] "GET /routing-log HTTP/1.1" 200 -
+23:43:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:46] "GET /stats HTTP/1.1" 200 -
+23:43:48 [INFO] SDNProxy: [0243] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:48 [INFO] SDNProxy: [0244] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:49] "GET /routing-log HTTP/1.1" 200 -
+23:43:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:49] "GET /stats HTTP/1.1" 200 -
+23:43:50 [INFO] SDNProxy: [0245] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:52 [INFO] SDNProxy: [0246] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:52] "GET /routing-log HTTP/1.1" 200 -
+23:43:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:52] "GET /stats HTTP/1.1" 200 -
+23:43:53 [INFO] SDNProxy: [0247] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:53 [INFO] SDNProxy: [0248] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:43:54 [INFO] SDNProxy: [0249] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:55] "GET /routing-log HTTP/1.1" 200 -
+23:43:55 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:55] "GET /stats HTTP/1.1" 200 -
+23:43:56 [INFO] SDNProxy: [0250] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:58 [INFO] SDNProxy: [0251] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:58 [INFO] SDNProxy: [0252] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:43:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:58] "GET /routing-log HTTP/1.1" 200 -
+23:43:58 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:43:58] "GET /stats HTTP/1.1" 200 -
+23:44:00 [INFO] SDNProxy: [0253] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:01] "GET /routing-log HTTP/1.1" 200 -
+23:44:01 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:01] "GET /stats HTTP/1.1" 200 -
+23:44:02 [INFO] SDNProxy: [0254] [R002] CRITICAL   -> Fog Edge Server | Rule R002 [Critical smoke level]: smoke_level=57 >= 50
+23:44:03 [INFO] SDNProxy: [0255] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:03 [INFO] SDNProxy: [0256] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:44:04 [INFO] SDNProxy: [0257] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:04] "GET /routing-log HTTP/1.1" 200 -
+23:44:04 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:04] "GET /stats HTTP/1.1" 200 -
+23:44:06 [INFO] SDNProxy: [0258] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:07] "GET /routing-log HTTP/1.1" 200 -
+23:44:07 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:07] "GET /stats HTTP/1.1" 200 -
+23:44:08 [INFO] SDNProxy: [0259] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=161 >= 150
+23:44:08 [INFO] SDNProxy: [0260] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:10 [INFO] SDNProxy: [0261] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:10] "GET /routing-log HTTP/1.1" 200 -
+23:44:10 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:10] "GET /stats HTTP/1.1" 200 -
+23:44:12 [INFO] SDNProxy: [0262] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:13 [INFO] SDNProxy: [0263] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=174 >= 150
+23:44:13 [INFO] SDNProxy: [0264] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:44:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:13] "GET /routing-log HTTP/1.1" 200 -
+23:44:13 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:13] "GET /stats HTTP/1.1" 200 -
+23:44:14 [INFO] SDNProxy: [0265] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:16 [INFO] SDNProxy: [0266] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:16] "GET /routing-log HTTP/1.1" 200 -
+23:44:16 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:16] "GET /stats HTTP/1.1" 200 -
+23:44:18 [INFO] SDNProxy: [0267] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:18 [INFO] SDNProxy: [0268] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:19] "GET /routing-log HTTP/1.1" 200 -
+23:44:19 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:19] "GET /stats HTTP/1.1" 200 -
+23:44:20 [INFO] SDNProxy: [0269] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:22 [INFO] SDNProxy: [0270] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:22] "GET /routing-log HTTP/1.1" 200 -
+23:44:22 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:22] "GET /stats HTTP/1.1" 200 -
+23:44:23 [INFO] SDNProxy: [0271] [R006] CRITICAL   -> Fog Edge Server | Rule R006 [Hazardous air quality]: air_quality_index=156 >= 150
+23:44:23 [INFO] SDNProxy: [0272] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:44:24 [INFO] SDNProxy: [0273] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:25] "GET /routing-log HTTP/1.1" 200 -
+23:44:25 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:25] "GET /stats HTTP/1.1" 200 -
+23:44:26 [INFO] SDNProxy: [0274] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:28 [INFO] SDNProxy: [0275] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:28 [INFO] SDNProxy: [0276] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:28] "GET /routing-log HTTP/1.1" 200 -
+23:44:28 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:28] "GET /stats HTTP/1.1" 200 -
+23:44:30 [INFO] SDNProxy: [0277] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:31] "GET /routing-log HTTP/1.1" 200 -
+23:44:31 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:31] "GET /stats HTTP/1.1" 200 -
+23:44:32 [INFO] SDNProxy: [0278] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:33 [INFO] SDNProxy: [0279] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:33 [INFO] SDNProxy: [0280] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:44:34 [INFO] SDNProxy: [0281] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:34] "GET /routing-log HTTP/1.1" 200 -
+23:44:34 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:34] "GET /stats HTTP/1.1" 200 -
+23:44:36 [INFO] SDNProxy: [0282] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:37] "GET /routing-log HTTP/1.1" 200 -
+23:44:37 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:37] "GET /stats HTTP/1.1" 200 -
+23:44:38 [INFO] SDNProxy: [0283] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:38 [INFO] SDNProxy: [0284] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:40 [INFO] SDNProxy: [0285] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:40] "GET /routing-log HTTP/1.1" 200 -
+23:44:40 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:40] "GET /stats HTTP/1.1" 200 -
+23:44:42 [INFO] SDNProxy: [0286] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:43 [INFO] SDNProxy: [0287] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:43 [INFO] SDNProxy: [0288] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
+23:44:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:43] "GET /routing-log HTTP/1.1" 200 -
+23:44:43 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:43] "GET /stats HTTP/1.1" 200 -
+23:44:44 [INFO] SDNProxy: [0289] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:46 [INFO] SDNProxy: [0290] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:46] "GET /routing-log HTTP/1.1" 200 -
+23:44:46 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:46] "GET /stats HTTP/1.1" 200 -
+23:44:48 [INFO] SDNProxy: [0291] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:48 [INFO] SDNProxy: [0292] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:49] "GET /routing-log HTTP/1.1" 200 -
+23:44:49 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:49] "GET /stats HTTP/1.1" 200 -
+23:44:50 [INFO] SDNProxy: [0293] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:52 [INFO] SDNProxy: [0294] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:52] "GET /routing-log HTTP/1.1" 200 -
+23:44:52 [INFO] werkzeug: 127.0.0.1 - - [28/Feb/2026 23:44:52] "GET /stats HTTP/1.1" 200 -
+23:44:53 [INFO] SDNProxy: [0295] [R008] ANALYTICS  -> Cloud Analytics Server | Rule R008: Default — analytics (default)
+23:44:53 [INFO] SDNProxy: [0296] [R007] BULK       -> Cloud Analytics Server | Rule R007 [Bulk data — many points]: num_points=50 >= 20
