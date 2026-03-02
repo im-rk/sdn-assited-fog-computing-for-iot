@@ -1,29 +1,9 @@
 #!/usr/bin/env python3
 """
-Mininet Topology — SDN-Assisted Fog Computing for IoT
-======================================================
-Star topology: all hosts connected to a single OpenFlow switch.
-The Ryu SDN controller runs externally and controls the switch.
+Mininet Topology - SDN-Assisted Fog Computing for IoT
 
-Data flow:
-  IoT Host (h1/h2/h3)
-      │  sends UDP to 10.0.0.100:9000 (collector — virtual SDN intercept address)
-      ▼
-  OpenFlow Switch (s1)
-      │  no flow rule → sends PacketIn to Ryu controller
-      ▼
-  Ryu SDN Controller (sdn_controller.py)
-      │  DPI → PolicyEngine → routing decision (JSON policy, no hardcoding)
-      │  rewrites dst IP + port + MAC at the switch
-      │  installs flow rule (next packets bypass controller)
-      ▼
-  Fog Server (10.0.0.4:5001)   ← EMERGENCY / CRITICAL traffic
-  Cloud Server (10.0.0.5:5002) ← ANALYTICS / BULK traffic
-
-Run order:
-  Terminal 1:  ryu-manager controller/sdn_controller.py
-  Terminal 2:  sudo python3 topology/network_topology.py
-  Terminal 3:  python3 gateway/api_gateway.py          (optional — for dashboard)
+Star topology: all hosts connected to a single OpenFlow switch (s1).
+The Ryu SDN controller runs externally on port 6633.
 """
 
 import os
@@ -42,30 +22,25 @@ VENV_PYTHON  = os.path.join(PROJECT_ROOT, 'venv', 'bin', 'python3')
 class FogIoTTopo(Topo):
     """
     Network layout:
-
-      h1 (10.0.0.1) ─────┐
-      h2 (10.0.0.2) ──── s1 ──── [Ryu Controller @ localhost:6633]
-      h3 (10.0.0.3) ─────┤
-      fog   (10.0.0.4)───┤   ← critical/emergency traffic lands here
-      cloud (10.0.0.5)───┤   ← analytics/bulk traffic lands here
-      collector(10.0.0.100)┘  ← virtual SDN intercept IP (Ryu intercepts before arrival)
+      h1 (10.0.0.1), h2 (10.0.0.2), h3 (10.0.0.3) — IoT devices
+      fog (10.0.0.4) — edge server
+      cloud (10.0.0.5) — cloud server
+      collector (10.0.0.100) — virtual intercept address
+      All connected to OVS switch s1.
     """
 
     def build(self):
         s1 = self.addSwitch('s1', cls=OVSSwitch, protocols='OpenFlow13')
 
-        # IoT Device nodes — know NOTHING about Fog or Cloud
-        # They only know the collector address (10.0.0.100:9000)
+        # IoT devices — send to collector address, Ryu decides the destination
         h1 = self.addHost('h1',    ip='10.0.0.1/24',   mac='00:00:00:00:00:01')
         h2 = self.addHost('h2',    ip='10.0.0.2/24',   mac='00:00:00:00:00:02')
         h3 = self.addHost('h3',    ip='10.0.0.3/24',   mac='00:00:00:00:00:03')
 
-        # Processing nodes — Ryu routes critical → fog, analytics → cloud
         fog       = self.addHost('fog',       ip='10.0.0.4/24',   mac='00:00:00:00:00:04')
         cloud     = self.addHost('cloud',     ip='10.0.0.5/24',   mac='00:00:00:00:00:05')
 
-        # Virtual collector — IoT devices send here.
-        # Ryu intercepts packets BEFORE they reach this host and redirects them.
+        # Virtual address — Ryu intercepts packets before they reach here
         collector = self.addHost('collector', ip='10.0.0.100/24', mac='00:00:00:00:00:64')
 
         # Star topology — all connected to the single OpenFlow switch
@@ -171,7 +146,7 @@ def run(no_cli=False):
     else:
         CLI(net)
 
-    # ── Cleanup ───────────────────────────────────────────────────────────────
+
     info('\nStopping all processes on hosts...\n')
     for host in [h1, h2, h3, fog, cloud]:
         host.cmd('kill %python3 2>/dev/null; true')

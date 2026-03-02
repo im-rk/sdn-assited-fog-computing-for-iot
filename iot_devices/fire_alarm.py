@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
 """
 Fire Alarm Sensor Simulator
-============================
+
 Sends fire/smoke sensor data to the SDN network endpoint.
-
-IMPORTANT: This device does NOT know whether data goes to Fog or Cloud.
-It only knows the single SDN endpoint address and sends all data there.
-
-In Simulation mode:  sends to sdn_proxy.py  (127.0.0.1:9000)
-In Mininet mode:     sends to 10.0.0.100:9000 — packets enter the OpenFlow
-                     switch, which sends them to the Ryu SDN controller for
-                     DPI and policy-driven routing to Fog or Cloud.
+The SDN controller handles routing to fog or cloud.
 """
 
 import json
@@ -20,8 +13,7 @@ import socket
 import argparse
 from datetime import datetime
 
-# Single SDN endpoint — device knows NOTHING about Fog/Cloud
-# Simulation mode: 127.0.0.1  |  Mininet mode: 10.0.0.100 (passed via --host)
+# SDN endpoint — device sends here, Ryu handles routing
 SDN_ENDPOINT_HOST = "127.0.0.1"
 SDN_ENDPOINT_PORT = 9000
 
@@ -35,10 +27,7 @@ def read_smoke_sensor() -> int:
 
 
 def generate_alarm_payload(smoke_level: int) -> dict:
-    """
-    Build a sensor payload.
-    No destination fields -- the NETWORK decides where this goes.
-    """
+    """Build a sensor payload."""
     return {
         "sensor_id":   SENSOR_ID,
         "sensor_type": "smoke_detector",
@@ -71,8 +60,7 @@ def main():
     args = parser.parse_args()
 
     print(f"Fire Alarm Sensor [{SENSOR_ID}] started")
-    print(f"Sending to SDN Proxy -> {args.host}:{args.port}")
-    print(f"  (The SDN proxy decides Fog or Cloud -- this device does not know)")
+    print(f"Sending to {args.host}:{args.port}")
     print("-" * 55)
 
     sent = 0

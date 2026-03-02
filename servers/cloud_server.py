@@ -26,8 +26,8 @@ MAX_RECORDS = 1000  # Keep last 1000 data points
 _lock = threading.Lock()
 analytics_data = deque(maxlen=MAX_RECORDS)
 # Rolling window of latency samples for percentile computation
-_processing_samples = deque(maxlen=200)   # server-side processing time (ms)
-_e2e_samples        = deque(maxlen=200)   # end-to-end: device send → server receive (ms)
+_processing_samples = deque(maxlen=200)
+_e2e_samples        = deque(maxlen=200)
 stats = {
     'total_batches': 0,
     'total_data_points': 0,
@@ -70,32 +70,17 @@ def _latency_stats(samples: list) -> dict:
 
 
 def _infer_class_from_data(data: dict, server_role: str) -> str:
-    """
-    Fallback traffic class inference used in Mininet/Ryu mode.
-
-    In Mininet mode, the Ryu SDN controller rewrites packet headers via
-    OpenFlow (L2/L3/L4) but cannot inject a JSON field into the UDP payload.
-    So '_sdn_routing' metadata won't be present.  We infer from the server role.
-    """
+    """Infer traffic class from server role when SDN metadata is not in the payload."""
     if server_role == 'cloud':
-        # Everything that arrives at cloud was routed here as ANALYTICS or BULK
-        # by the Ryu controller.
         return 'ANALYTICS'
     return 'CRITICAL'
 
 
 def process_analytics_data(data):
-    """
-    Process analytics data with heavy computation simulation.
-
-    Reads SDN routing metadata from '_sdn_routing' — no hardcoded logic.
-    Simulates realistic cloud latency (network hop + processing).
-    """
+    """Process an incoming analytics packet and update stats."""
     receive_time = datetime.now()
     processing_start = time.time()
 
-    # End-to-end latency: time from when IoT device sent the packet to when
-    # this server received it.  Cloud = remote data centre → higher e2e latency.
     e2e_ms = 0.0
     payload_ts = data.get('timestamp')
     if payload_ts:
@@ -105,17 +90,11 @@ def process_analytics_data(data):
         except Exception:
             pass
 
-    # Read SDN routing metadata (injected by sdn_proxy in simulation mode).
-    # In Mininet/Ryu mode, OpenFlow only rewrites headers — no payload injection.
-    # Fall back to inferring from the fact that we ARE the cloud server.
     sdn_meta = data.get('_sdn_routing', {})
     traffic_class = sdn_meta.get('traffic_class') or _infer_class_from_data(data, 'cloud')
     rule_id       = sdn_meta.get('rule_id', 'OpenFlow-routed')
 
-    # Simulate realistic cloud processing delay in a non-blocking way:
-    # The sleep is inside process_analytics_data() which runs per-thread,
-    # so it never holds up the UDP receive loop.
-    time.sleep(random.uniform(0.05, 0.15))  # 50-150ms realistic cloud delay
+    time.sleep(random.uniform(0.05, 0.15))  # simulate cloud processing delay
 
     batch_size = len(data.get('data_points', []))
     data_size = len(json.dumps(data))
@@ -182,8 +161,7 @@ def _handle_packet(data: bytes, addr: tuple):
 
 
 def udp_listener():
-    """Listen for incoming UDP packets. Each packet is dispatched to its own
-    thread so the 50-150ms cloud delay never blocks the receive loop."""
+    """Listen for incoming UDP packets, dispatching each to its own thread."""
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind((HOST, UDP_PORT))
@@ -244,10 +222,7 @@ def get_summary():
 
 @app.route('/metrics', methods=['GET'])
 def get_metrics():
-    """
-    Latency evaluation metrics for Cloud server.
-    Demonstrates why Cloud is NOT suitable for emergency/critical IoT traffic.
-    """
+    """Latency metrics for the cloud server."""
     with _lock:
         proc  = list(_processing_samples)
         e2e   = list(_e2e_samples)
@@ -262,13 +237,7 @@ def get_metrics():
             'processing_ms':  _latency_stats(proc),
             'e2e_ms':         _latency_stats(e2e),
             'total_ms':       _latency_stats(total),
-        },
-        'justification': (
-            'Cloud server simulates a remote data centre (50–150ms WAN latency + '
-            'heavy ML/aggregation processing). ANALYTICS and BULK traffic is '
-            'routed here by the SDN controller because timeliness is not critical. '
-            'Routing emergency traffic here would delay response by 100× vs Fog.'
-        )
+        }
     })
 
 

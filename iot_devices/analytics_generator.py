@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
 """
 Analytics Data Generator
-==========================
+
 Sends bulk historical sensor data to the SDN network endpoint.
-
-IMPORTANT: This device does NOT know whether data goes to Fog or Cloud.
-It only knows the single SDN endpoint address and sends all data there.
-
-In Simulation mode:  sends to sdn_proxy.py  (127.0.0.1:9000)
-In Mininet mode:     sends to 10.0.0.100:9000 — packets enter the OpenFlow
-                     switch, which sends them to the Ryu SDN controller for
-                     DPI and policy-driven routing to Fog or Cloud.
+The SDN controller handles routing to fog or cloud.
 """
 
 import json
@@ -20,8 +13,7 @@ import socket
 import argparse
 from datetime import datetime, timedelta
 
-# Single SDN endpoint — device knows NOTHING about Fog/Cloud
-# Simulation mode: 127.0.0.1  |  Mininet mode: 10.0.0.100 (passed via --host)
+# SDN endpoint — device sends here, Ryu handles routing
 SDN_ENDPOINT_HOST = "127.0.0.1"
 SDN_ENDPOINT_PORT = 9000
 
@@ -48,10 +40,7 @@ def generate_historical_readings(num_points: int = 50) -> list:
 
 
 def generate_payload(num_points: int = 50) -> dict:
-    """
-    Build a bulk analytics payload.
-    No destination info -- SDN proxy detects large payload and routes to Cloud.
-    """
+    """Build a bulk analytics payload."""
     return {
         "sensor_id":   SENSOR_ID,
         "sensor_type": "multi_sensor_array",

@@ -1,18 +1,9 @@
 #!/usr/bin/env python3
 """
-Policy Engine — Generic SDN Rule Executor
-==========================================
-Loads routing rules from config/routing_policy.json at startup.
-Evaluates any IoT packet against those rules.
-Routes to whichever node the policy says.
+Policy Engine - SDN Routing Rule Evaluator
 
-This code contains ZERO hardcoded IPs, ports, or thresholds.
-Everything is driven by the JSON policy file.
-
-To change routing behaviour:
-    → Edit config/routing_policy.json
-    → Restart the proxy
-    → No code changes needed
+Loads routing rules from a JSON config file and evaluates
+incoming IoT packets to determine destination node (fog/cloud).
 """
 
 import json
@@ -27,11 +18,7 @@ POLICY_FILE = Path(__file__).parent.parent / "config" / "routing_policy.json"
 
 
 class PolicyEngine:
-    """
-    Generic rule executor.
-    Knows nothing about fire alarms, fog, cloud, or any domain concept.
-    It only knows how to evaluate rules from the policy file.
-    """
+    """Evaluates IoT packets against policy rules to determine routing destination."""
 
     def __init__(self, policy_path: str = None):
         self.policy_path = policy_path or str(POLICY_FILE)
@@ -40,18 +27,16 @@ class PolicyEngine:
         self.rules       = []
         self.load_policy()
 
-    # ── Policy Loading ────────────────────────────────────────────────────────
+
     def load_policy(self):
         """Load and parse the routing policy from JSON."""
         with open(self.policy_path, "r") as f:
             self.policy = json.load(f)
 
-        # Filter out comment keys — only keep actual node dicts
         self.nodes = {
             k: v for k, v in self.policy["nodes"].items()
             if isinstance(v, dict)
         }
-        # Sort rules by priority descending — highest priority evaluated first
         self.rules = sorted(
             self.policy["rules"],
             key=lambda r: r["priority"],
@@ -70,7 +55,7 @@ class PolicyEngine:
         logger.info("Reloading policy...")
         self.load_policy()
 
-    # ── Core Evaluation ───────────────────────────────────────────────────────
+
     def evaluate(self, payload_bytes: bytes) -> dict:
         """
         Evaluate raw packet bytes against all policy rules.
@@ -86,14 +71,12 @@ class PolicyEngine:
                 "data":          { ...parsed payload... }
             }
         """
-        # ── Step 1: Parse payload ─────────────────────────────────────────────
         try:
             data = json.loads(payload_bytes.decode("utf-8"))
         except Exception:
             data = {}
             logger.warning("Could not parse payload — applying default rule")
 
-        # ── Step 2: Find first matching rule (highest priority) ───────────────
         for rule in self.rules:
             if self._matches(rule["conditions"], data):
                 node_name = rule["action"]["route_to"]
@@ -115,12 +98,8 @@ class PolicyEngine:
             "node": default_node, "reason": "No rule matched", "data": data
         }
 
-    # ── Condition Evaluator ───────────────────────────────────────────────────
     def _matches(self, conditions: list, data: dict) -> bool:
-        """
-        All conditions in a rule must match (AND logic).
-        Supports operators: ==, !=, >=, <=, >, <, in, not_in, exists
-        """
+        """All conditions must match (AND logic). Supports: ==, !=, >=, <=, >, <, in, not_in, exists."""
         for cond in conditions:
             field    = cond["field"]
             operator = cond["operator"]

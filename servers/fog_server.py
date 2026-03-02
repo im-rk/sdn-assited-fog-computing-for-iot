@@ -25,8 +25,8 @@ MAX_ALERTS = 100  # Keep last 100 alerts
 _lock = threading.Lock()
 alerts_queue  = deque(maxlen=MAX_ALERTS)
 # Rolling window of latency samples for percentile computation
-_processing_samples = deque(maxlen=200)   # server-side processing time (ms)
-_e2e_samples        = deque(maxlen=200)   # end-to-end: device send → server receive (ms)
+_processing_samples = deque(maxlen=200)
+_e2e_samples        = deque(maxlen=200)
 stats = {
     'total_alerts': 0,
     'critical_count': 0,
@@ -69,36 +69,17 @@ def _latency_stats(samples: list) -> dict:
 
 
 def _infer_class_from_data(data: dict, server_role: str) -> str:
-    """
-    Fallback traffic class inference used in Mininet/Ryu mode.
-
-    In Mininet mode, the Ryu SDN controller rewrites packet headers via
-    OpenFlow (L2/L3/L4) but cannot inject a JSON field into the UDP payload.
-    So '_sdn_routing' metadata won't be present.  We infer the class from
-    context: if a packet reached this server, the SDN controller already
-    decided it belongs here — so we just mark it by server role.
-    """
+    """Infer traffic class from server role when SDN metadata is not in the payload."""
     if server_role == 'fog':
-        # Everything that arrives at fog was routed here as CRITICAL or EMERGENCY
-        # by the Ryu controller — so mark it accordingly.
         return 'CRITICAL'
     return 'ANALYTICS'
 
 
 def process_critical_alert(data):
-    """
-    Process an alert routed here by the SDN Proxy.
-
-    ZERO hardcoded severity logic — the traffic classification is read
-    from the '_sdn_routing' metadata injected by the SDN Proxy.
-    The Fog server simply acts on whatever the SDN layer decided.
-    """
+    """Process an incoming alert packet and update stats."""
     receive_time = datetime.now()
     processing_start = time.time()
 
-    # End-to-end latency: time from when IoT device sent the packet to when
-    # this server received it.  Uses the 'timestamp' field in every payload.
-    # On LAN / same-machine simulation this will be sub-millisecond.
     e2e_ms = 0.0
     payload_ts = data.get('timestamp')
     if payload_ts:
@@ -108,9 +89,6 @@ def process_critical_alert(data):
         except Exception:
             pass
 
-    # Read SDN routing metadata (injected by the proxy — no hardcoding)
-    # In Mininet/Ryu mode, OpenFlow only rewrites headers (no payload injection),
-    # so we fall back to inferring from the fact that we ARE the fog server.
     sdn_meta = data.get('_sdn_routing', {})
     traffic_class = sdn_meta.get('traffic_class') or _infer_class_from_data(data, 'fog')
     rule_id       = sdn_meta.get('rule_id', 'OpenFlow-routed')
@@ -241,10 +219,7 @@ def get_latest_alert():
 
 @app.route('/metrics', methods=['GET'])
 def get_metrics():
-    """
-    Latency evaluation metrics for Fog server.
-    Shows why EMERGENCY/CRITICAL traffic must be routed here instead of Cloud.
-    """
+    """Latency metrics for the fog server."""
     with _lock:
         proc = list(_processing_samples)
         e2e  = list(_e2e_samples)
@@ -259,13 +234,7 @@ def get_metrics():
             'processing_ms':   _latency_stats(proc),
             'e2e_ms':          _latency_stats(e2e),
             'total_ms':        _latency_stats(total),
-        },
-        'justification': (
-            'Fog is co-located on the local network (LAN). '
-            'Processing latency is sub-millisecond. '
-            'EMERGENCY packets are routed here by the SDN controller '
-            'to guarantee fast, life-critical response.'
-        )
+        }
     })
 
 
