@@ -118,6 +118,4 @@ All routing logic lives in the JSON policy file — no hardcoded thresholds in a
 To change routing: edit `config/routing_policy.json` (simulation) or
 `config/routing_policy_mininet.json` (Mininet). No code changes needed.
 
-## License
 
-MIT License
